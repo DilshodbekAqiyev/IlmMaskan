@@ -5,12 +5,12 @@
   "type": "commonjs",
   "main": "build/server.js",
   "engines": {
-    "node":"18.x"
+    "node": "18.x"
   },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only server.ts",
-    "start":"node build/server.js",    
-    "build":"tsc"
+    "start": "node build/server.js",
+    "build": "tsc"
   },
   "author": "EC & SPM Project",
   "license": "ISC",
@@ -43,8 +43,8 @@
     "typescript": "^5.1.6"
   },
   "devDependencies": {
-    "@types/ejs": "^3.1.2",
-    "@types/node-cron": "^3.0.8",
-    "@types/nodemailer": "^6.4.9"
+    "@types/ejs": "^3.1.5",
+    "@types/node-cron": "^3.0.11",
+    "@types/nodemailer": "^6.4.23"
   }
 }
