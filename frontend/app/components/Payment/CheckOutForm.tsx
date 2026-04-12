@@ -17,11 +17,11 @@ const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 type Props = {
   setOpen: any;
   data: any;
-  user:any;
-  refetch:any;
+  user: any;
+  refetch: any;
 };
 
-const CheckOutForm = ({ data,user,refetch }: Props) => {
+const CheckOutForm = ({ data, user, refetch }: Props) => {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState<any>("");
@@ -48,23 +48,23 @@ const CheckOutForm = ({ data,user,refetch }: Props) => {
   };
 
   useEffect(() => {
-   if(orderData){
-    refetch();
-    socketId.emit("notification", {
-       title: "New Order",
-       message: `You have a new order from ${data.name}`,
-       userId: user._id,
-    });
-    redirect(`/course-access/${data._id}`);
-   }
-   if(error){
-    if ("data" in error) {
+    if (orderData) {
+      refetch();
+      socketId.emit("notification", {
+        title: "New Order",
+        message: `You have a new order from ${data.name}`,
+        userId: user._id,
+      });
+      redirect(`/course-access/${data._id}`);
+    }
+    if (error) {
+      if ("data" in error) {
         const errorMessage = error as any;
         toast.error(errorMessage.data.message);
       }
-   }
-  }, [orderData,error])
-  
+    }
+    //  eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderData, error]);
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>

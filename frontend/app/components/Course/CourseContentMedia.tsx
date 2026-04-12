@@ -57,7 +57,7 @@ const CourseContentMedia = ({
   ] = useAddNewQuestionMutation();
   const { data: courseData, refetch: courseRefetch } = useGetCourseDetailsQuery(
     id,
-    { refetchOnMountOrArgChange: true }
+    { refetchOnMountOrArgChange: true },
   );
   const [
     addAnswerInQuestion,
@@ -87,7 +87,7 @@ const CourseContentMedia = ({
   ] = useAddReplyInReviewMutation();
 
   const isReviewExists = course?.reviews?.find(
-    (item: any) => item.user._id === user._id
+    (item: any) => item.user._id === user._id,
   );
 
   const handleQuestion = () => {
@@ -161,6 +161,7 @@ const CourseContentMedia = ({
         toast.error(errorMessage.data.message);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isSuccess,
     error,
@@ -214,8 +215,7 @@ const CourseContentMedia = ({
           }`}
           onClick={() =>
             setActiveVideo(activeVideo === 0 ? 0 : activeVideo - 1)
-          }
-        >
+          }>
           <AiOutlineArrowLeft className="mr-2" />
           Prev Lesson
         </div>
@@ -229,10 +229,9 @@ const CourseContentMedia = ({
             setActiveVideo(
               data && data.length - 1 === activeVideo
                 ? activeVideo
-                : activeVideo + 1
+                : activeVideo + 1,
             )
-          }
-        >
+          }>
           Next Lesson
           <AiOutlineArrowRight className="ml-2" />
         </div>
@@ -250,8 +249,7 @@ const CourseContentMedia = ({
                 ? "text-red-500"
                 : "dark:text-white text-black"
             }`}
-            onClick={() => setactiveBar(index)}
-          >
+            onClick={() => setactiveBar(index)}>
             {text}
           </h5>
         ))}
@@ -272,8 +270,7 @@ const CourseContentMedia = ({
               </h2>
               <a
                 className="inline-block text-[#4395c4] 800px:text-[20px] 800px:pl-2"
-                href={item.url}
-              >
+                href={item.url}>
                 {item.url}
               </a>
             </div>
@@ -303,8 +300,7 @@ const CourseContentMedia = ({
               cols={40}
               rows={5}
               placeholder="Write your question..."
-              className="outline-none bg-transparent ml-3 border dark:text-white text-black border-[#0000001d] dark:border-[#ffffff57] 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins"
-            ></textarea>
+              className="outline-none bg-transparent ml-3 border dark:text-white text-black border-[#0000001d] dark:border-[#ffffff57] 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins"></textarea>
           </div>
           <div className="w-full flex justify-end">
             <div
@@ -313,8 +309,7 @@ const CourseContentMedia = ({
               } !w-[120px] !h-[40px] text-[18px] mt-5 ${
                 questionCreationLoading && "cursor-not-allowed"
               }`}
-              onClick={questionCreationLoading ? () => {} : handleQuestion}
-            >
+              onClick={questionCreationLoading ? () => {} : handleQuestion}>
               Submit
             </div>
           </div>
@@ -376,7 +371,7 @@ const CourseContentMedia = ({
                             size={25}
                             onClick={() => setRating(i)}
                           />
-                        )
+                        ),
                       )}
                     </div>
                     <textarea
@@ -387,8 +382,7 @@ const CourseContentMedia = ({
                       cols={40}
                       rows={5}
                       placeholder="Write your comment..."
-                      className="outline-none bg-transparent 800px:ml-3 dark:text-white text-black border border-[#00000027] dark:border-[#ffffff57] w-[95%] 800px:w-full p-2 rounded text-[18px] font-Poppins"
-                    ></textarea>
+                      className="outline-none bg-transparent 800px:ml-3 dark:text-white text-black border border-[#00000027] dark:border-[#ffffff57] w-[95%] 800px:w-full p-2 rounded text-[18px] font-Poppins"></textarea>
                   </div>
                 </div>
                 <div className="w-full flex justify-end">
@@ -400,8 +394,7 @@ const CourseContentMedia = ({
                     }`}
                     onClick={
                       reviewCreationLoading ? () => {} : handleReviewSubmit
-                    }
-                  >
+                    }>
                     Submit
                   </div>
                 </div>
@@ -412,9 +405,10 @@ const CourseContentMedia = ({
             <div className="w-full">
               {(course?.reviews && [...course.reviews].reverse())?.map(
                 (item: any, index: number) => {
-                  
                   return (
-                    <div className="w-full my-5 dark:text-white text-black" key={index}>
+                    <div
+                      className="w-full my-5 dark:text-white text-black"
+                      key={index}>
                       <div className="w-full flex">
                         <div>
                           <Image
@@ -438,17 +432,17 @@ const CourseContentMedia = ({
                           </small>
                         </div>
                       </div>
-                      {user.role === "admin" && item.commentReplies.length === 0 && (
-                        <span
-                          className={`${styles.label} !ml-10 cursor-pointer`}
-                          onClick={() => {
-                            setIsReviewReply(true);
-                            setReviewId(item._id);
-                          }}
-                        >
-                          Add Reply
-                        </span>
-                      )}
+                      {user.role === "admin" &&
+                        item.commentReplies.length === 0 && (
+                          <span
+                            className={`${styles.label} !ml-10 cursor-pointer`}
+                            onClick={() => {
+                              setIsReviewReply(true);
+                              setReviewId(item._id);
+                            }}>
+                            Add Reply
+                          </span>
+                        )}
 
                       {isReviewReply && reviewId === item._id && (
                         <div className="w-full flex relative">
@@ -462,15 +456,16 @@ const CourseContentMedia = ({
                           <button
                             type="submit"
                             className="absolute right-0 bottom-1"
-                            onClick={handleReviewReplySubmit}
-                          >
+                            onClick={handleReviewReplySubmit}>
                             Submit
                           </button>
                         </div>
                       )}
 
                       {item.commentReplies.map((i: any, index: number) => (
-                        <div className="w-full flex 800px:ml-16 my-5" key={index}>
+                        <div
+                          className="w-full flex 800px:ml-16 my-5"
+                          key={index}>
                           <div className="w-[50px] h-[50px]">
                             <Image
                               src={
@@ -498,7 +493,7 @@ const CourseContentMedia = ({
                       ))}
                     </div>
                   );
-                }
+                },
               )}
             </div>
           </>
@@ -582,8 +577,7 @@ const CommentItem = ({
             onClick={() => {
               setreplyActive(!replyActive);
               setQuestionId(item._id);
-            }}
-          >
+            }}>
             {!replyActive
               ? item.questionReplies.length !== 0
                 ? "All Replies"
@@ -599,10 +593,12 @@ const CommentItem = ({
           </span>
         </div>
 
-        {replyActive && questionId === item._id &&  (
+        {replyActive && questionId === item._id && (
           <>
             {item.questionReplies.map((item: any) => (
-              <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white" key={item._id}>
+              <div
+                className="w-full flex 800px:ml-16 my-5 text-black dark:text-white"
+                key={item._id}>
                 <div>
                   <Image
                     src={
@@ -646,8 +642,7 @@ const CommentItem = ({
                   type="submit"
                   className="absolute right-0 bottom-1"
                   onClick={handleAnswerSubmit}
-                  disabled={answer === "" || answerCreationLoading}
-                >
+                  disabled={answer === "" || answerCreationLoading}>
                   Submit
                 </button>
               </div>

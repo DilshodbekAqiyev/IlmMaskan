@@ -44,11 +44,12 @@ const Profile: FC<Props> = ({ user }) => {
     if (data) {
       const filteredCourses = user.courses
         .map((userCourse: any) =>
-          data.courses.find((course: any) => course._id === userCourse._id)
+          data.courses.find((course: any) => course._id === userCourse._id),
         )
         .filter((course: any) => course !== undefined);
       setCourses(filteredCourses);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (
@@ -56,8 +57,7 @@ const Profile: FC<Props> = ({ user }) => {
       <div
         className={`w-[60px] 800px:w-[310px] h-[450px] dark:bg-slate-900 bg-opacity-90 border bg-white dark:border-[#ffffff1d] border-[#00000014] rounded-[5px] shadow-sm dark:shadow-sm mt-[80px] mb-[80px] sticky ${
           scroll ? "top-[120px]" : "top-[30px]"
-        } left-[30px]`}
-      >
+        } left-[30px]`}>
         <SideBarProfile
           user={user}
           active={active}

@@ -26,29 +26,31 @@ const schema = Yup.object().shape({
 
 const Signup: FC<Props> = ({ setRoute }) => {
   const [show, setShow] = useState(false);
-  const [register,{data,error,isSuccess}] = useRegisterMutation(); 
+  const [register, { data, error, isSuccess }] = useRegisterMutation();
 
   useEffect(() => {
-   if(isSuccess){
+    if (isSuccess) {
       const message = data?.message || "Registration successful";
       toast.success(message);
       setRoute("Verification");
-   }
-   if(error){
-    if("data" in error){
-      const errorData = error as any;
-      toast.error(errorData.data.message);
     }
-   }
-  }, [isSuccess,error]);
-  
+    if (error) {
+      if ("data" in error) {
+        const errorData = error as any;
+        toast.error(errorData.data.message);
+      }
+    }
+    //  eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess, error]);
 
   const formik = useFormik({
     initialValues: { name: "", email: "", password: "" },
     validationSchema: schema,
-    onSubmit: async ({name, email, password }) => {
+    onSubmit: async ({ name, email, password }) => {
       const data = {
-        name,email,password
+        name,
+        email,
+        password,
       };
       await register(data);
     },
@@ -143,8 +145,7 @@ const Signup: FC<Props> = ({ setRoute }) => {
           Already have an account?{" "}
           <span
             className="text-[#2190ff] pl-1 cursor-pointer"
-            onClick={() => setRoute("Login")}
-          >
+            onClick={() => setRoute("Login")}>
             Sign in
           </span>
         </h5>

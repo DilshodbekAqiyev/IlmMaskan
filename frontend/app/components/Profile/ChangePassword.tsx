@@ -39,10 +39,8 @@ const ChangePassword: FC<Props> = (props) => {
       </h1>
       <div className="w-full">
         <form
-          aria-required
           onSubmit={passwordChangeHandler}
-          className="flex flex-col items-center"
-        >
+          className="flex flex-col items-center">
           <div className=" w-[100%] 800px:w-[60%] mt-5">
             <label className="block pb-2 text-black dark:text-[#fff]">
               Enter your old password

@@ -28,7 +28,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
     useUpdateUserRoleMutation();
   const { isLoading, data, refetch } = useGetAllUsersQuery(
     {},
-    { refetchOnMountOrArgChange: true }
+    { refetchOnMountOrArgChange: true },
   );
   const [deleteUser, { isSuccess: deleteSuccess, error: deleteError }] =
     useDeleteUserMutation({});
@@ -57,6 +57,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
         toast.error(errorMessage.data.message);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateError, isSuccess, deleteSuccess, deleteError]);
 
   const columns = [
@@ -77,8 +78,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
               onClick={() => {
                 setOpen(!open);
                 setUserId(params.row.id);
-              }}
-            >
+              }}>
               <AiOutlineDelete
                 className="dark:text-white text-black"
                 size={20}
@@ -154,8 +154,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
             <div className="w-full flex justify-end">
               <div
                 className={`${styles.button} !w-[200px] !rounded-[10px] dark:bg-[#57c7a3] !h-[35px] dark:border dark:border-[#ffffff6c]`}
-                onClick={() => setActive(!active)}
-              >
+                onClick={() => setActive(!active)}>
                 Add New Member
               </div>
             </div>
@@ -210,8 +209,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
               "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                 color: `#fff !important`,
               },
-            }}
-          >
+            }}>
             <DataGrid checkboxSelection rows={rows} columns={columns} />
           </Box>
           {active && (
@@ -219,8 +217,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
               open={active}
               onClose={() => setActive(!active)}
               aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
+              aria-describedby="modal-modal-description">
               <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 rounded-[8px] shadow p-4 outline-none">
                 <h1 className={`${styles.title}`}>Add New Member</h1>
                 <div className="mt-4">
@@ -235,12 +232,10 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
                     name=""
                     id=""
                     className={`${styles.input} !mt-6`}
-                    onChange={(e: any) => setRole(e.target.value)}
-                  >
+                    onChange={(e: any) => setRole(e.target.value)}>
                     <option
                       className="dark:bg-[#000] text-[#fff]"
-                      value="admin"
-                    >
+                      value="admin">
                       Admin
                     </option>
                     <option className="dark:bg-[#000] text-[#fff]" value="user">
@@ -250,8 +245,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
                   <br />
                   <div
                     className={`${styles.button} my-6 !h-[30px]`}
-                    onClick={handleSubmit}
-                  >
+                    onClick={handleSubmit}>
                     Submit
                   </div>
                 </div>
@@ -264,8 +258,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
               open={open}
               onClose={() => setOpen(!open)}
               aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
+              aria-describedby="modal-modal-description">
               <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 rounded-[8px] shadow p-4 outline-none">
                 <h1 className={`${styles.title}`}>
                   Are you sure you want to delete this user?
@@ -273,14 +266,12 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
                 <div className="flex w-full items-center justify-between mb-6 mt-4">
                   <div
                     className={`${styles.button} !w-[120px] h-[30px] bg-[#57c7a3]`}
-                    onClick={() => setOpen(!open)}
-                  >
+                    onClick={() => setOpen(!open)}>
                     Cancel
                   </div>
                   <div
                     className={`${styles.button} !w-[120px] h-[30px] bg-[#d63f3f]`}
-                    onClick={handleDelete}
-                  >
+                    onClick={handleDelete}>
                     Delete
                   </div>
                 </div>

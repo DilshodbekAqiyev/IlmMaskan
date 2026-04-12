@@ -36,6 +36,7 @@ const CourseDetailsPage = ({ id }: Props) => {
       const amount = Math.round(data.course.price * 100);
       createPaymentIntent(amount);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config, data, userData]);
 
   useEffect(() => {

@@ -35,6 +35,7 @@ const Verification: FC<Props> = ({ setRoute }) => {
         console.log("An error occured:", error);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, error]);
 
   const inputRefs = [
@@ -116,8 +117,7 @@ const Verification: FC<Props> = ({ setRoute }) => {
         Go back to sign in?{" "}
         <span
           className="text-[#2190ff] pl-1 cursor-pointer"
-          onClick={() => setRoute("Login")}
-        >
+          onClick={() => setRoute("Login")}>
           Sign in
         </span>
       </h5>

@@ -1,5 +1,6 @@
 import { styles } from "@/app/styles/style";
 import { useGetHeroDataQuery } from "@/redux/features/layout/layoutApi";
+import Image from "next/image";
 import React, { FC, useEffect, useState } from "react";
 
 type Props = {
@@ -102,8 +103,7 @@ const CourseInformation: FC<Props> = ({
             value={courseInfo.description}
             onChange={(e: any) =>
               setCourseInfo({ ...courseInfo, description: e.target.value })
-            }
-          ></textarea>
+            }></textarea>
         </div>
         <br />
         <div className="w-full flex justify-between">
@@ -172,8 +172,7 @@ const CourseInformation: FC<Props> = ({
               value={courseInfo.category}
               onChange={(e: any) =>
                 setCourseInfo({ ...courseInfo, categories: e.target.value })
-              }
-            >
+              }>
               <option className="dark:bg-[#000] text-[#fff]" value="">
                 Select Category
               </option>
@@ -182,8 +181,7 @@ const CourseInformation: FC<Props> = ({
                   <option
                     className="dark:bg-[#000] text-[#fff]"
                     value={item.title}
-                    key={item._id}
-                  >
+                    key={item._id}>
                     {item.title}
                   </option>
                 ))}
@@ -241,10 +239,9 @@ const CourseInformation: FC<Props> = ({
             }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          >
+            onDrop={handleDrop}>
             {courseInfo.thumbnail ? (
-              <img
+              <Image
                 src={courseInfo.thumbnail}
                 alt=""
                 className="max-h-full w-full object-cover"

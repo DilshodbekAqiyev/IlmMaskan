@@ -26,8 +26,8 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
   const [audio] = useState<any>(
     typeof window !== "undefined" &&
       new Audio(
-        "https://res.cloudinary.com/damk25wo5/video/upload/v1693465789/notification_vcetjn.mp3"
-      )
+        "https://res.cloudinary.com/damk25wo5/video/upload/v1693465789/notification_vcetjn.mp3",
+      ),
   );
 
   const playNotificationSound = () => {
@@ -37,14 +37,15 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
   useEffect(() => {
     if (data) {
       setNotifications(
-        data.notifications.filter((item: any) => item.status === "unread")
+        data.notifications.filter((item: any) => item.status === "unread"),
       );
     }
     if (isSuccess) {
       refetch();
     }
     audio.load();
-  }, [data, isSuccess,audio]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, isSuccess, audio]);
 
   useEffect(() => {
     socketId.on("newNotification", (data) => {
@@ -62,8 +63,7 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
       <ThemeSwitcher />
       <div
         className="relative cursor-pointer m-2"
-        onClick={() => setOpen(!open)}
-      >
+        onClick={() => setOpen(!open)}>
         <IoMdNotificationsOutline className="text-2xl cursor-pointer dark:text-white text-black" />
         <span className="absolute -top-2 -right-2 bg-[#3ccba0] rounded-full w-[20px] h-[20px] text-[12px] flex items-center justify-center text-white">
           {notifications && notifications.length}
@@ -78,14 +78,12 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
             notifications.map((item: any, index: number) => (
               <div
                 className="dark:bg-[#2d3a4e] bg-[#00000013] font-Poppins border-b dark:border-b-[#ffffff47] border-b-[#0000000f]"
-                key={index}
-              >
+                key={index}>
                 <div className="w-full flex items-center justify-between p-2">
                   <p className="text-black dark:text-white">{item.title}</p>
                   <p
                     className="text-black dark:text-white cursor-pointer"
-                    onClick={() => handleNotificationStatusChange(item._id)}
-                  >
+                    onClick={() => handleNotificationStatusChange(item._id)}>
                     Mark as read
                   </p>
                 </div>
