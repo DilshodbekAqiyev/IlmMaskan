@@ -15,8 +15,8 @@ const Page = (props: Props) => {
   return (
     <div className="min-h-screen">
       <Heading
-        title="FAQ - Elearning"
-        description="Elearning is a learning management system for helping programmers."
+        title="FAQ - IlmMaskan"
+        description="IlmMaskan is a learning management system for helping programmers."
         keywords="programming,mern"
       />
       <Header

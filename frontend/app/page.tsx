@@ -8,7 +8,7 @@ import Reviews from "./components/Route/Reviews";
 import FAQ from "./components/FAQ/FAQ";
 import Footer from "./components/Footer";
 
-interface Props { }
+interface Props {}
 
 const Page: FC<Props> = (props) => {
   const [open, setOpen] = useState(false);
@@ -18,8 +18,8 @@ const Page: FC<Props> = (props) => {
   return (
     <>
       <Heading
-        title="ELearning"
-        description="ELearning is a platform for students to learn and get help from teachers"
+        title="IlmMaskan - Your Gateway to Knowledge"
+        description="IlmMaskan is a platform for students to learn and get help from teachers"
         keywords="Prograaming,MERN,Redux,Machine Learning"
       />
       <div>

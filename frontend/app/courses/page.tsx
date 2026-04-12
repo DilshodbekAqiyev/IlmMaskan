@@ -28,14 +28,14 @@ const Page = (props: Props) => {
     }
     if (category !== "All") {
       setcourses(
-        data?.courses.filter((item: any) => item.categories === category)
+        data?.courses.filter((item: any) => item.categories === category),
       );
     }
     if (search) {
       setcourses(
         data?.courses.filter((item: any) =>
-          item.name.toLowerCase().includes(search.toLowerCase())
-        )
+          item.name.toLowerCase().includes(search.toLowerCase()),
+        ),
       );
     }
   }, [data, category, search]);
@@ -57,8 +57,8 @@ const Page = (props: Props) => {
           />
           <div className="w-[95%] 800px:w-[85%] m-auto min-h-[70vh]">
             <Heading
-              title={"All courses - Elearning"}
-              description={"Elearning is a programming community."}
+              title={"All courses - IlmMaskan"}
+              description={"IlmMaskan is a programming community."}
               keywords={
                 "programming community, coding skills, expert insights, collaboration, growth"
               }
@@ -69,8 +69,7 @@ const Page = (props: Props) => {
                 className={`h-[35px] ${
                   category === "All" ? "bg-[crimson]" : "bg-[#5050cb]"
                 } m-3 px-3 rounded-[30px] flex items-center justify-center font-Poppins cursor-pointer`}
-                onClick={() => setCategory("All")}
-              >
+                onClick={() => setCategory("All")}>
                 All
               </div>
               {categories &&
@@ -82,20 +81,20 @@ const Page = (props: Props) => {
                           ? "bg-[crimson]"
                           : "bg-[#5050cb]"
                       } m-3 px-3 rounded-[30px] flex items-center justify-center font-Poppins cursor-pointer`}
-                      onClick={() => setCategory(item.title)}
-                    >
+                      onClick={() => setCategory(item.title)}>
                       {item.title}
                     </div>
                   </div>
                 ))}
             </div>
-            {
-                courses && courses.length === 0 && (
-                    <p className={`${styles.label} justify-center min-h-[50vh] flex items-center`}>
-                    {search ? "No courses found!" : "No courses found in this category. Please try another one!"}
-                  </p>
-                )
-            }
+            {courses && courses.length === 0 && (
+              <p
+                className={`${styles.label} justify-center min-h-[50vh] flex items-center`}>
+                {search
+                  ? "No courses found!"
+                  : "No courses found in this category. Please try another one!"}
+              </p>
+            )}
             <br />
             <br />
             <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] 1500px:grid-cols-4 1500px:gap-[35px] mb-12 border-0">

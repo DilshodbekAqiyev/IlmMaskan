@@ -102,7 +102,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                   <Link
                     href={"/"}
                     className={`text-[25px] font-Poppins font-[500] text-black dark:text-white`}>
-                    ELearning
+                    IlmMaskan
                   </Link>
                 </div>
                 <div className="flex items-center">
@@ -181,7 +181,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                   <br />
                   <br />
                   <p className="text-[16px] px-2 pl-5 text-black dark:text-white">
-                    Copyright © 2023 ELearning
+                    Copyright © 2023 IlmMaskan
                   </p>
                 </div>
               </div>

@@ -40,8 +40,7 @@ const Item: FC<itemProps> = ({ title, to, icon, selected, setSelected }) => {
     <MenuItem
       active={selected === title}
       onClick={() => setSelected(title)}
-      icon={icon}
-    >
+      icon={icon}>
       <Typography className="!text-[16px] !font-Poppins">{title}</Typography>
       <Link href={to} />
     </MenuItem>
@@ -91,8 +90,7 @@ const Sidebar = () => {
           color: `${theme !== "dark" && "#000"}`,
         },
       }}
-      className="!bg-white dark:bg-[#111C43]"
-    >
+      className="!bg-white dark:bg-[#111C43]">
       <ProSidebar
         collapsed={isCollapsed}
         style={{
@@ -100,10 +98,9 @@ const Sidebar = () => {
           top: 0,
           left: 0,
           height: "100vh",
-          zIndex:99999999999999,
+          zIndex: 99999999999999,
           width: isCollapsed ? "0%" : "16%",
-        }}
-      >
+        }}>
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
@@ -111,21 +108,21 @@ const Sidebar = () => {
             icon={isCollapsed ? <ArrowForwardIosIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
-            }}
-          >
+            }}>
             {!isCollapsed && (
               <Box
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                ml="15px"
-              >
-               <Link href="/" className="block">
-               <h3 className="text-[25px] font-Poppins uppercase dark:text-white text-black">
-                  ELearning
-                </h3>
-               </Link>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)} className="inline-block">
+                ml="15px">
+                <Link href="/" className="block">
+                  <h3 className="text-[25px] font-Poppins uppercase dark:text-white text-black">
+                    IlmMaskan
+                  </h3>
+                </Link>
+                <IconButton
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  className="inline-block">
                   <ArrowBackIosIcon className="text-black dark:text-[#ffffffc1]" />
                 </IconButton>
               </Box>
@@ -151,15 +148,13 @@ const Sidebar = () => {
                 <Typography
                   variant="h4"
                   className="!text-[20px] text-black dark:text-[#ffffffc1]"
-                  sx={{ m: "10px 0 0 0" }}
-                >
+                  sx={{ m: "10px 0 0 0" }}>
                   {user?.name}
                 </Typography>
                 <Typography
                   variant="h6"
                   sx={{ m: "10px 0 0 0" }}
-                  className="!text-[20px] text-black dark:text-[#ffffffc1] capitalize"
-                >
+                  className="!text-[20px] text-black dark:text-[#ffffffc1] capitalize">
                   - {user?.role}
                 </Typography>
               </Box>
@@ -178,8 +173,7 @@ const Sidebar = () => {
             <Typography
               variant="h5"
               sx={{ m: "15px 0 5px 25px" }}
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-            >
+              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]">
               {!isCollapsed && "Data"}
             </Typography>
             <Item
@@ -201,8 +195,7 @@ const Sidebar = () => {
             <Typography
               variant="h5"
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-              sx={{ m: "15px 0 5px 20px" }}
-            >
+              sx={{ m: "15px 0 5px 20px" }}>
               {!isCollapsed && "Content"}
             </Typography>
             <Item
@@ -223,8 +216,7 @@ const Sidebar = () => {
             <Typography
               variant="h5"
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-              sx={{ m: "15px 0 5px 20px" }}
-            >
+              sx={{ m: "15px 0 5px 20px" }}>
               {!isCollapsed && "Customization"}
             </Typography>
             <Item
@@ -252,8 +244,7 @@ const Sidebar = () => {
             <Typography
               variant="h5"
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-              sx={{ m: "15px 0 5px 20px" }}
-            >
+              sx={{ m: "15px 0 5px 20px" }}>
               {!isCollapsed && "Controllers"}
             </Typography>
             <Item
@@ -267,8 +258,7 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-              sx={{ m: "15px 0 5px 20px" }}
-            >
+              sx={{ m: "15px 0 5px 20px" }}>
               {!isCollapsed && "Analytics"}
             </Typography>
             <Item
@@ -297,8 +287,7 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-              sx={{ m: "15px 0 5px 20px" }}
-            >
+              sx={{ m: "15px 0 5px 20px" }}>
               {!isCollapsed && "Extras"}
             </Typography>
             <div onClick={logoutHandler}>
