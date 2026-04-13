@@ -18,7 +18,7 @@ const EditHero: FC<Props> = (props: Props) => {
     refetchOnMountOrArgChange: true,
   });
   const [editLayout, { isLoading, isSuccess, error }] = useEditLayoutMutation();
-
+  console.log(data);
   useEffect(() => {
     if (data) {
       setTitle(data?.layout?.banner.title);
@@ -69,6 +69,8 @@ const EditHero: FC<Props> = (props: Props) => {
             <Image
               src={image}
               alt=""
+              width={500}
+              height={500}
               className="object-contain 1100px:max-w-[90%] w-[90%] 1500px:max-w-[85%] h-[auto] z-[10]"
             />
             <input
