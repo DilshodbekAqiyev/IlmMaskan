@@ -39,7 +39,7 @@ export const createLayout = CatchAsyncError(
               question: item.question,
               answer: item.answer,
             };
-          })
+          }),
         );
         await LayoutModel.create({ type: "FAQ", faq: faqItems });
       }
@@ -50,7 +50,7 @@ export const createLayout = CatchAsyncError(
             return {
               title: item.title,
             };
-          })
+          }),
         );
         await LayoutModel.create({
           type: "Categories",
@@ -65,7 +65,7 @@ export const createLayout = CatchAsyncError(
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
     }
-  }
+  },
 );
 
 // Edit layout
@@ -74,31 +74,43 @@ export const editLayout = CatchAsyncError(
     try {
       const { type } = req.body;
       if (type === "Banner") {
-        const bannerData: any = await LayoutModel.findOne({ type: "Banner" });
-
         const { image, title, subTitle } = req.body;
 
-        const data = image.startsWith("https")
-          ? bannerData
-          : await cloudinary.v2.uploader.upload(image, {
-              folder: "layout",
-            });
+        if (!image) {
+          return next(new ErrorHandler("Image is required", 400));
+        }
 
-        const banner = {
+        const bannerData: any = await LayoutModel.findOne({ type: "Banner" });
+
+        // Upload new image only if it's base64 (not existing URL)
+        const isExistingUrl = image.startsWith("https");
+        const uploadedImage = isExistingUrl
+          ? null
+          : await cloudinary.v2.uploader.upload(image, { folder: "layout" });
+
+        const bannerPayload = {
           type: "Banner",
-          image: {
-            public_id: image.startsWith("https")
-              ? bannerData.banner.image.public_id
-              : data?.public_id,
-            url: image.startsWith("https")
-              ? bannerData.banner.image.url
-              : data?.secure_url,
+          banner: {
+            image: {
+              public_id: isExistingUrl
+                ? bannerData?.banner?.image?.public_id
+                : uploadedImage?.public_id,
+              url: isExistingUrl
+                ? bannerData?.banner?.image?.url
+                : uploadedImage?.secure_url,
+            },
+            title,
+            subTitle,
           },
-          title,
-          subTitle,
         };
 
-        await LayoutModel.findByIdAndUpdate(bannerData._id, { banner });
+        if (bannerData) {
+          // ✅ Update existing
+          await LayoutModel.findByIdAndUpdate(bannerData._id, bannerPayload);
+        } else {
+          // ✅ Create if first time
+          await LayoutModel.create(bannerPayload);
+        }
       }
 
       if (type === "FAQ") {
@@ -110,7 +122,7 @@ export const editLayout = CatchAsyncError(
               question: item.question,
               answer: item.answer,
             };
-          })
+          }),
         );
         await LayoutModel.findByIdAndUpdate(FaqItem?._id, {
           type: "FAQ",
@@ -127,7 +139,7 @@ export const editLayout = CatchAsyncError(
             return {
               title: item.title,
             };
-          })
+          }),
         );
         await LayoutModel.findByIdAndUpdate(categoriesData?._id, {
           type: "Categories",
@@ -141,10 +153,10 @@ export const editLayout = CatchAsyncError(
       });
     } catch (error: any) {
       console.log(error);
-      
+
       return next(new ErrorHandler(error.message, 500));
     }
-  }
+  },
 );
 
 // get layout by type
@@ -160,5 +172,5 @@ export const getLayoutByType = CatchAsyncError(
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
     }
-  }
+  },
 );
