@@ -22,7 +22,7 @@ exports.registrationUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, r
         // Check if email is valid using regex
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            return next(new ErrorHandler_1.default("Please enter a valid email address", 400));
+            return next(new ErrorHandler_1.default(req.t("error.invalid_email"), 400));
         }
         // Block temporary/disposable email domains
         const blockedDomains = [
@@ -51,11 +51,11 @@ exports.registrationUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, r
         // Check if domain or part of domain matches blocked list
         const isDomainBlocked = blockedDomains.some(blocked => emailDomain === blocked || emailDomain.includes(blocked.replace('.com', '')));
         if (isDomainBlocked) {
-            return next(new ErrorHandler_1.default("Please use a valid permanent email address. Temporary/disposable emails are not allowed.", 400));
+            return next(new ErrorHandler_1.default(req.t("error.temp_email"), 400));
         }
         const isEmailExist = await user_model_1.default.findOne({ email });
         if (isEmailExist) {
-            return next(new ErrorHandler_1.default("Email already exists", 400));
+            return next(new ErrorHandler_1.default(req.t("error.email_exists"), 400));
         }
         const user = {
             name,
@@ -69,13 +69,13 @@ exports.registrationUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, r
         try {
             await (0, sendMail_1.default)({
                 email: user.email,
-                subject: "Activate your account",
+                subject: req.t("email.activation_subject"),
                 template: "activation-mail.ejs",
                 data,
             });
             res.status(201).json({
                 success: true,
-                message: `Please check your email: ${user.email} to activate your account!`,
+                message: req.t("success.check_email", { email: user.email }),
                 activationToken: activationToken.token,
             });
         }
@@ -103,12 +103,12 @@ exports.activateUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, 
         const { activation_token, activation_code } = req.body;
         const newUser = jsonwebtoken_1.default.verify(activation_token, process.env.ACTIVATION_SECRET);
         if (newUser.activationCode !== activation_code) {
-            return next(new ErrorHandler_1.default("Invalid activation code", 400));
+            return next(new ErrorHandler_1.default(req.t("error.invalid_activation_code"), 400));
         }
         const { name, email, password } = newUser.user;
         const existUser = await user_model_1.default.findOne({ email });
         if (existUser) {
-            return next(new ErrorHandler_1.default("Email already exist", 400));
+            return next(new ErrorHandler_1.default(req.t("error.email_exists"), 400));
         }
         const user = await user_model_1.default.create({
             name,
@@ -127,15 +127,15 @@ exports.loginUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, nex
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            return next(new ErrorHandler_1.default("Please enter email and password", 400));
+            return next(new ErrorHandler_1.default(req.t("error.enter_email_password"), 400));
         }
         const user = await user_model_1.default.findOne({ email }).select("+password");
         if (!user) {
-            return next(new ErrorHandler_1.default("Invalid email or password", 400));
+            return next(new ErrorHandler_1.default(req.t("error.invalid_email_password"), 400));
         }
         const isPasswordMatch = await user.comparePassword(password);
         if (!isPasswordMatch) {
-            return next(new ErrorHandler_1.default("Invalid email or password", 400));
+            return next(new ErrorHandler_1.default(req.t("error.invalid_email_password"), 400));
         }
         (0, jwt_1.sendToken)(user, 200, res);
     }
@@ -152,7 +152,7 @@ exports.logoutUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
         redis_1.redis.del(userId);
         res.status(200).json({
             success: true,
-            message: "Logged out successfully",
+            message: req.t("success.logged_out"),
         });
     }
     catch (error) {
@@ -164,13 +164,13 @@ exports.updateAccessToken = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, 
     try {
         const refresh_token = req.cookies.refresh_token;
         const decoded = jsonwebtoken_1.default.verify(refresh_token, process.env.REFRESH_TOKEN);
-        const message = "Could not refresh token";
+        const message = req.t("error.could_not_refresh");
         if (!decoded) {
             return next(new ErrorHandler_1.default(message, 400));
         }
         const session = await redis_1.redis.get(decoded.id);
         if (!session) {
-            return next(new ErrorHandler_1.default("Please login for access this resources!", 400));
+            return next(new ErrorHandler_1.default(req.t("error.please_login"), 400));
         }
         const user = JSON.parse(session);
         const accessToken = jsonwebtoken_1.default.sign({ id: user._id }, process.env.ACCESS_TOKEN, {
@@ -239,15 +239,15 @@ exports.updatePassword = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res
     try {
         const { oldPassword, newPassword } = req.body;
         if (!oldPassword || !newPassword) {
-            return next(new ErrorHandler_1.default("Please enter old and new password", 400));
+            return next(new ErrorHandler_1.default(req.t("error.enter_email_password"), 400)); // "enter_email_password" might be wrong context, better generic or missing fields
         }
         const user = await user_model_1.default.findById(req.user?._id).select("+password");
         if (user?.password === undefined) {
-            return next(new ErrorHandler_1.default("Invalid user", 400));
+            return next(new ErrorHandler_1.default(req.t("error.invalid_user"), 400));
         }
         const isPasswordMatch = await user?.comparePassword(oldPassword);
         if (!isPasswordMatch) {
-            return next(new ErrorHandler_1.default("Invalid old password", 400));
+            return next(new ErrorHandler_1.default(req.t("error.invalid_old_password"), 400));
         }
         user.password = newPassword;
         await user.save();
@@ -324,7 +324,7 @@ exports.updateUserRole = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res
         else {
             res.status(400).json({
                 success: false,
-                message: "User not found",
+                message: req.t("error.user_not_found"),
             });
         }
     }
@@ -338,13 +338,13 @@ exports.deleteUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
         const { id } = req.params;
         const user = await user_model_1.default.findById(id);
         if (!user) {
-            return next(new ErrorHandler_1.default("User not found", 404));
+            return next(new ErrorHandler_1.default(req.t("error.user_not_found"), 404));
         }
         await user.deleteOne({ id });
         await redis_1.redis.del(id);
         res.status(200).json({
             success: true,
-            message: "User deleted successfully",
+            message: req.t("success.user_deleted"),
         });
     }
     catch (error) {

@@ -70,27 +70,39 @@ exports.editLayout = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
     try {
         const { type } = req.body;
         if (type === "Banner") {
-            const bannerData = await layout_model_1.default.findOne({ type: "Banner" });
             const { image, title, subTitle } = req.body;
-            const data = image.startsWith("https")
-                ? bannerData
-                : await cloudinary_1.default.v2.uploader.upload(image, {
-                    folder: "layout",
-                });
-            const banner = {
+            if (!image) {
+                return next(new ErrorHandler_1.default("Image is required", 400));
+            }
+            const bannerData = await layout_model_1.default.findOne({ type: "Banner" });
+            // Upload new image only if it's base64 (not existing URL)
+            const isExistingUrl = image.startsWith("https");
+            const uploadedImage = isExistingUrl
+                ? null
+                : await cloudinary_1.default.v2.uploader.upload(image, { folder: "layout" });
+            const bannerPayload = {
                 type: "Banner",
-                image: {
-                    public_id: image.startsWith("https")
-                        ? bannerData.banner.image.public_id
-                        : data?.public_id,
-                    url: image.startsWith("https")
-                        ? bannerData.banner.image.url
-                        : data?.secure_url,
+                banner: {
+                    image: {
+                        public_id: isExistingUrl
+                            ? bannerData?.banner?.image?.public_id
+                            : uploadedImage?.public_id,
+                        url: isExistingUrl
+                            ? bannerData?.banner?.image?.url
+                            : uploadedImage?.secure_url,
+                    },
+                    title,
+                    subTitle,
                 },
-                title,
-                subTitle,
             };
-            await layout_model_1.default.findByIdAndUpdate(bannerData._id, { banner });
+            if (bannerData) {
+                // ✅ Update existing
+                await layout_model_1.default.findByIdAndUpdate(bannerData._id, bannerPayload);
+            }
+            else {
+                // ✅ Create if first time
+                await layout_model_1.default.create(bannerPayload);
+            }
         }
         if (type === "FAQ") {
             const { faq } = req.body;

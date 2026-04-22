@@ -179,9 +179,11 @@ export const addQuestion = CatchAsyncError(
       const { question, courseId, contentId }: IAddQuestionData = req.body;
       const course = await CourseModel.findById(courseId);
 
-        return next(new ErrorHandler((req as any).t("error.invalid_course_id"), 400)); // "Invalid content id" -> I'll use invalid_course_id or similar from translation.json
+      if (!course) {
+        return next(new ErrorHandler((req as any).t("error.course_not_found"), 400));
+      }
 
-      const couseContent = course?.courseData?.find((item: any) =>
+      const couseContent = course.courseData.find((item: any) =>
         item._id.equals(contentId)
       );
 
@@ -234,11 +236,15 @@ export const addAnwser = CatchAsyncError(
 
       const course = await CourseModel.findById(courseId);
 
+      if (!course) {
+        return next(new ErrorHandler((req as any).t("error.course_not_found"), 400));
+      }
+
       if (!mongoose.Types.ObjectId.isValid(contentId)) {
         return next(new ErrorHandler((req as any).t("error.invalid_course_id"), 400));
       }
 
-      const couseContent = course?.courseData?.find((item: any) =>
+      const couseContent = course.courseData.find((item: any) =>
         item._id.equals(contentId)
       );
 

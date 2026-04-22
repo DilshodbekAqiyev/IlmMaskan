@@ -8,7 +8,7 @@
   },
   "header": {
     "login_success": "Успешный вход в систему",
-    "copyright": "Авторские права © 2023 IlmMaskan"
+    "copyright": "Авторские права © 2026 IlmMaskan"
   },
   "page": {
     "profile_title": "Профиль {{name}} - IlmMaskan",
@@ -69,7 +69,7 @@
     "call_us": "Позвоните нам: 1-885-665-2022",
     "address": "Адрес: +7011 Vermont Ave, Los Angeles, CA 90044",
     "mail_us": "Почта: hello@IlmMaskan.com",
-    "copyright": "Авторские права © 2023 IlmMaskan | Все права защищены"
+    "copyright": "Авторские права © 2026 IlmMaskan | Все права защищены"
   },
   "auth": {
     "login_title": "Войдите в IlmMaskan",

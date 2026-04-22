@@ -117,7 +117,7 @@ exports.getCourseByUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, re
         const courseId = req.params.id;
         const courseExists = userCourseList?.find((course) => course._id.toString() === courseId);
         if (!courseExists) {
-            return next(new ErrorHandler_1.default("You are not eligible to access this course", 404));
+            return next(new ErrorHandler_1.default(req.t("error.already_purchased"), 404));
         }
         const course = await course_model_1.default.findById(courseId);
         const content = course?.courseData;
@@ -134,12 +134,12 @@ exports.addQuestion = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, n
     try {
         const { question, courseId, contentId } = req.body;
         const course = await course_model_1.default.findById(courseId);
-        if (!mongoose_1.default.Types.ObjectId.isValid(contentId)) {
-            return next(new ErrorHandler_1.default("Invalid content id", 400));
+        if (!course) {
+            return next(new ErrorHandler_1.default(req.t("error.course_not_found"), 400));
         }
-        const couseContent = course?.courseData?.find((item) => item._id.equals(contentId));
+        const couseContent = course.courseData.find((item) => item._id.equals(contentId));
         if (!couseContent) {
-            return next(new ErrorHandler_1.default("Invalid content id", 400));
+            return next(new ErrorHandler_1.default(req.t("error.invalid_course_id"), 400));
         }
         // create a new question object
         const newQuestion = {
@@ -151,8 +151,8 @@ exports.addQuestion = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, n
         couseContent.questions.push(newQuestion);
         await notification_Model_1.default.create({
             user: req.user?._id,
-            title: "New Question Received",
-            message: `You have a new question in ${couseContent.title}`,
+            title: req.t("notifications.new_question_title"),
+            message: req.t("notifications.new_question_message", { courseName: couseContent.title }),
         });
         // save the updated course
         await course?.save();
@@ -169,16 +169,19 @@ exports.addAnwser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, nex
     try {
         const { answer, courseId, contentId, questionId } = req.body;
         const course = await course_model_1.default.findById(courseId);
-        if (!mongoose_1.default.Types.ObjectId.isValid(contentId)) {
-            return next(new ErrorHandler_1.default("Invalid content id", 400));
+        if (!course) {
+            return next(new ErrorHandler_1.default(req.t("error.course_not_found"), 400));
         }
-        const couseContent = course?.courseData?.find((item) => item._id.equals(contentId));
+        if (!mongoose_1.default.Types.ObjectId.isValid(contentId)) {
+            return next(new ErrorHandler_1.default(req.t("error.invalid_course_id"), 400));
+        }
+        const couseContent = course.courseData.find((item) => item._id.equals(contentId));
         if (!couseContent) {
-            return next(new ErrorHandler_1.default("Invalid content id", 400));
+            return next(new ErrorHandler_1.default(req.t("error.invalid_course_id"), 400));
         }
         const question = couseContent?.questions?.find((item) => item._id.equals(questionId));
         if (!question) {
-            return next(new ErrorHandler_1.default("Invalid question id", 400));
+            return next(new ErrorHandler_1.default(req.t("error.question_not_found"), 400));
         }
         // create a new answer object
         const newAnswer = {
@@ -194,8 +197,8 @@ exports.addAnwser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, nex
             // create a notification
             await notification_Model_1.default.create({
                 user: req.user?._id,
-                title: "New Question Reply Received",
-                message: `You have a new question reply in ${couseContent.title}`,
+                title: req.t("notifications.new_reply_title"),
+                message: req.t("notifications.new_reply_message"),
             });
         }
         else {
@@ -207,7 +210,7 @@ exports.addAnwser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, nex
             try {
                 await (0, sendMail_1.default)({
                     email: question.user.email,
-                    subject: "Question Reply",
+                    subject: req.t("email.reply_subject"),
                     template: "question-reply.ejs",
                     data,
                 });
@@ -232,7 +235,7 @@ exports.addReview = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, nex
         // check if courseId already exists in userCourseList based on _id
         const courseExists = userCourseList?.some((course) => course._id.toString() === courseId.toString());
         if (!courseExists) {
-            return next(new ErrorHandler_1.default("You are not eligible to access this course", 404));
+            return next(new ErrorHandler_1.default(req.t("error.already_purchased"), 404));
         }
         const course = await course_model_1.default.findById(courseId);
         const { review, rating } = req.body;
@@ -254,8 +257,8 @@ exports.addReview = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, nex
         // create notification
         await notification_Model_1.default.create({
             user: req.user?._id,
-            title: "New Review Received",
-            message: `${req.user?.name} has given a review in ${course?.name}`,
+            title: req.t("notifications.new_review_title"),
+            message: req.t("notifications.new_review_message", { userName: req.user?.name, courseName: course?.name }),
         });
         res.status(200).json({
             success: true,
@@ -271,11 +274,11 @@ exports.addReplyToReview = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, r
         const { comment, courseId, reviewId } = req.body;
         const course = await course_model_1.default.findById(courseId);
         if (!course) {
-            return next(new ErrorHandler_1.default("Course not found", 404));
+            return next(new ErrorHandler_1.default(req.t("error.course_not_found"), 404));
         }
         const review = course?.reviews?.find((rev) => rev._id.toString() === reviewId);
         if (!review) {
-            return next(new ErrorHandler_1.default("Review not found", 404));
+            return next(new ErrorHandler_1.default(req.t("error.review_not_found"), 404));
         }
         const replyData = {
             user: req.user,
@@ -313,13 +316,13 @@ exports.deleteCourse = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, 
         const { id } = req.params;
         const course = await course_model_1.default.findById(id);
         if (!course) {
-            return next(new ErrorHandler_1.default("course not found", 404));
+            return next(new ErrorHandler_1.default(req.t("error.course_not_found"), 404));
         }
         await course.deleteOne({ id });
         await redis_1.redis.del(id);
         res.status(200).json({
             success: true,
-            message: "course deleted successfully",
+            message: req.t("success.course_deleted"),
         });
     }
     catch (error) {

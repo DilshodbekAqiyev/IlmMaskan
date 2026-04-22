@@ -25,18 +25,18 @@ exports.createOrder = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, n
                 const paymentIntentId = payment_info.id;
                 const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
                 if (paymentIntent.status !== "succeeded") {
-                    return next(new ErrorHandler_1.default("Payment not authorized!", 400));
+                    return next(new ErrorHandler_1.default(req.t("error.payment_not_authorized"), 400));
                 }
             }
         }
         const user = await user_model_1.default.findById(req.user?._id);
         const courseExistInUser = user?.courses.some((course) => course._id.toString() === courseId);
         if (courseExistInUser) {
-            return next(new ErrorHandler_1.default("You have already purchased this course", 400));
+            return next(new ErrorHandler_1.default(req.t("error.already_purchased"), 400));
         }
         const course = await course_model_1.default.findById(courseId);
         if (!course) {
-            return next(new ErrorHandler_1.default("Course not found", 404));
+            return next(new ErrorHandler_1.default(req.t("error.course_not_found"), 404));
         }
         const data = {
             courseId: course._id,
@@ -60,7 +60,7 @@ exports.createOrder = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, n
             if (user) {
                 await (0, sendMail_1.default)({
                     email: user.email,
-                    subject: "Order Confirmation",
+                    subject: req.t("email.order_subject"),
                     template: "order-confirmation.ejs",
                     data: mailData,
                 });
@@ -74,8 +74,8 @@ exports.createOrder = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, n
         await user?.save();
         await notification_Model_1.default.create({
             user: user?._id,
-            title: "New Order",
-            message: `You have a new order from ${course?.name}`,
+            title: req.t("notifications.new_order_title"),
+            message: req.t("notifications.new_order_message", { courseName: course?.name }),
         });
         course.purchased = course.purchased + 1;
         await course.save();
