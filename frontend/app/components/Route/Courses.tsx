@@ -1,12 +1,14 @@
 import { useGetUsersAllCoursesQuery } from "@/redux/features/courses/coursesApi";
 import React, { useEffect, useState } from "react";
 import CourseCard from "../Course/CourseCard";
+import { useTranslation } from "react-i18next";
 
 type Props = {};
 
 const Courses = (props: Props) => {
   const { data, isLoading } = useGetUsersAllCoursesQuery({});
   const [courses, setCourses] = useState<any[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setCourses(data?.courses);
@@ -16,9 +18,9 @@ const Courses = (props: Props) => {
     <div>
       <div className={`w-[90%] 800px:w-[80%] m-auto`}>
         <h1 className="text-center font-Poppins text-[25px] leading-[35px] sm:text-3xl lg:text-4xl dark:text-white 800px:!leading-[60px] text-[#000] font-[700] tracking-tight">
-          Expand Your Career <span className="text-gradient">Opportunity</span>{" "}
+          {t("courses.title")} <span className="text-gradient">{t("courses.opportunity")}</span>{" "}
           <br />
-          Opportunity With Our Courses
+          {t("courses.subtitle")}
         </h1>
         <br />
         <br />

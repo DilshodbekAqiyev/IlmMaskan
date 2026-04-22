@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Profile from "../components/Profile/Profile";
 import { useSelector } from "react-redux";
 import Footer from "../components/Footer";
+import { useTranslation } from "react-i18next";
 
 type Props = {};
 
@@ -14,14 +15,15 @@ const Page: FC<Props> = (props) => {
   const [activeItem, setActiveItem] = useState(5);
   const [route, setRoute] = useState("Login");
   const { user } = useSelector((state: any) => state.auth);
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen">
       <Protected>
         <Heading
-          title={`${user?.name} profile - IlmMaskan`}
-          description="IlmMaskan is a platform for students to learn and get help from teachers"
-          keywords="Prograaming,MERN,Redux,Machine Learning"
+          title={t("page.profile_title", { name: user?.name })}
+          description={t("page.description")}
+          keywords={t("page.keywords")}
         />
         <Header
           open={open}

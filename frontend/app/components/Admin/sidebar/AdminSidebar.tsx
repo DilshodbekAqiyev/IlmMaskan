@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { useTranslation } from "react-i18next";
 
 interface itemProps {
   title: string;
@@ -54,6 +55,7 @@ const Sidebar = () => {
   const [selected, setSelected] = useState("Dashboard");
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { t } = useTranslation();
 
   useEffect(() => setMounted(true), []);
 
@@ -163,7 +165,7 @@ const Sidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Dashboard"
+              title={t("admin.sidebar.dashboard")}
               to="/admin"
               icon={<HomeOutlinedIcon />}
               selected={selected}
@@ -174,10 +176,10 @@ const Sidebar = () => {
               variant="h5"
               sx={{ m: "15px 0 5px 25px" }}
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]">
-              {!isCollapsed && "Data"}
+              {!isCollapsed && t("admin.sidebar.data")}
             </Typography>
             <Item
-              title="Users"
+              title={t("admin.sidebar.users")}
               to="/admin/users"
               icon={<GroupsIcon />}
               selected={selected}
@@ -185,7 +187,7 @@ const Sidebar = () => {
             />
 
             <Item
-              title="Invoices"
+              title={t("admin.sidebar.invoices")}
               to="/admin/invoices"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
@@ -196,17 +198,17 @@ const Sidebar = () => {
               variant="h5"
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}>
-              {!isCollapsed && "Content"}
+              {!isCollapsed && t("admin.sidebar.content")}
             </Typography>
             <Item
-              title="Create Course"
+              title={t("admin.sidebar.create_course")}
               to="/admin/create-course"
               icon={<VideoCallIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Live Courses"
+              title={t("admin.sidebar.live_courses")}
               to="/admin/courses"
               icon={<OndemandVideoIcon />}
               selected={selected}
@@ -217,24 +219,24 @@ const Sidebar = () => {
               variant="h5"
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}>
-              {!isCollapsed && "Customization"}
+              {!isCollapsed && t("admin.sidebar.customization")}
             </Typography>
             <Item
-              title="Hero"
+              title={t("admin.sidebar.hero")}
               to="/admin/hero"
               icon={<WebIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="FAQ"
+              title={t("admin.sidebar.faq")}
               to="/admin/faq"
               icon={<QuizIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Categories"
+              title={t("admin.sidebar.categories")}
               to="/admin/categories"
               icon={<WysiwygIcon />}
               selected={selected}
@@ -245,10 +247,10 @@ const Sidebar = () => {
               variant="h5"
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}>
-              {!isCollapsed && "Controllers"}
+              {!isCollapsed && t("admin.sidebar.controllers")}
             </Typography>
             <Item
-              title="Manage Team"
+              title={t("admin.sidebar.manage_team")}
               to="/admin/team"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
@@ -259,17 +261,17 @@ const Sidebar = () => {
               variant="h6"
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}>
-              {!isCollapsed && "Analytics"}
+              {!isCollapsed && t("admin.sidebar.analytics")}
             </Typography>
             <Item
-              title="Courses Analytics"
+              title={t("admin.sidebar.courses_analytics")}
               to="/admin/courses-analytics"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Orders Analytics"
+              title={t("admin.sidebar.orders_analytics")}
               to="/admin/orders-analytics"
               icon={<MapOutlinedIcon />}
               selected={selected}
@@ -277,7 +279,7 @@ const Sidebar = () => {
             />
 
             <Item
-              title="Users Analytics"
+              title={t("admin.sidebar.users_analytics")}
               to="/admin/users-analytics"
               icon={<ManageHistoryIcon />}
               selected={selected}
@@ -288,11 +290,11 @@ const Sidebar = () => {
               variant="h6"
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}>
-              {!isCollapsed && "Extras"}
+              {!isCollapsed && t("admin.sidebar.extras")}
             </Typography>
             <div onClick={logoutHandler}>
               <Item
-                title="Logout"
+                title={t("admin.sidebar.logout")}
                 to="/"
                 icon={<ExitToAppIcon />}
                 selected={selected}

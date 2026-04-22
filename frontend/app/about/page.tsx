@@ -4,6 +4,7 @@ import Heading from "../utils/Heading";
 import Header from "../components/Header";
 import About from "./About";
 import Footer from "../components/Footer";
+import { useTranslation } from "react-i18next";
 
 type Props = {};
 
@@ -11,13 +12,14 @@ const Page = (props: Props) => {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(2);
   const [route, setRoute] = useState("Login");
+  const { t } = useTranslation();
 
   return (
     <div>
       <Heading
-        title="About us - IlmMaskan"
-        description="IlmMaskan is a learning management system for helping programmers."
-        keywords="programming,mern"
+        title={t("page.about_title")}
+        description={t("page.description")}
+        keywords={t("page.keywords")}
       />
       <Header
         open={open}

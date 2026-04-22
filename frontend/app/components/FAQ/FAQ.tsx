@@ -2,6 +2,7 @@ import { styles } from '@/app/styles/style';
 import { useGetHeroDataQuery } from '@/redux/features/layout/layoutApi';
 import React, { useEffect, useState } from 'react'
 import { HiMinus, HiPlus } from 'react-icons/hi';
+import { useTranslation } from "react-i18next";
 
 type Props = {}
 
@@ -10,6 +11,7 @@ const FAQ = (props: Props) => {
       });
       const [activeQuestion, setActiveQuestion] = useState(null);
   const [questions, setQuestions] = useState<any[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (data) {
@@ -25,7 +27,7 @@ const FAQ = (props: Props) => {
     <div>
          <div className="w-[90%] 800px:w-[80%] m-auto">
         <h1 className={`${styles.title} 800px:text-[40px]`}>
-          Frequently Asked Questions
+          {t("faq.title")}
         </h1>
         <div className="mt-12">
           <dl className="space-y-8">

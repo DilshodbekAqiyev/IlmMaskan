@@ -12,6 +12,7 @@ import { styles } from "../../../app/styles/style";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -19,19 +20,20 @@ type Props = {
   refetch: any;
 };
 
-const schema = Yup.object().shape({
+const createSchema = (t: any) => Yup.object().shape({
   email: Yup.string()
-    .email("Invalid email!")
-    .required("Please enter your email!"),
-  password: Yup.string().required("Please enter your password!").min(6),
+    .email(t("auth.invalid_email"))
+    .required(t("auth.email_required")),
+  password: Yup.string().required(t("auth.password_required")).min(6, t("auth.password_min")),
 });
 
 const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [login, { isSuccess, error }] = useLoginMutation();
   const formik = useFormik({
     initialValues: { email: "", password: "" },
-    validationSchema: schema,
+    validationSchema: createSchema(t),
     onSubmit: async ({ email, password }) => {
       await login({ email, password });
     },
@@ -39,7 +41,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Login Successfully!");
+      toast.success(t("auth.login_success"));
       setOpen(false);
       refetch();
     }
@@ -56,10 +58,10 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
 
   return (
     <div className="w-full">
-      <h1 className={`${styles.title}`}>Login with IlmMaskan</h1>
+      <h1 className={`${styles.title}`}>{t("auth.login_title")}</h1>
       <form onSubmit={handleSubmit}>
         <label className={`${styles.label}`} htmlFor="email">
-          Enter your Email
+          {t("auth.enter_email")}
         </label>
         <input
           type="email"
@@ -67,7 +69,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
           value={values.email}
           onChange={handleChange}
           id="email"
-          placeholder="loginmail@gmail.com"
+          placeholder={t("auth.email_placeholder")}
           className={`${errors.email && touched.email && "border-red-500"} ${
             styles.input
           }`}
@@ -76,8 +78,8 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
           <span className="text-red-500 pt-2 block">{errors.email}</span>
         )}
         <div className="w-full mt-5 relative mb-1">
-          <label className={`${styles.label}`} htmlFor="email">
-            Enter your password
+          <label className={`${styles.label}`} htmlFor="password">
+            {t("auth.enter_password")}
           </label>
           <input
             type={!show ? "password" : "text"}
@@ -85,7 +87,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
             value={values.password}
             onChange={handleChange}
             id="password"
-            placeholder="password!@%"
+            placeholder={t("auth.password_placeholder")}
             className={`${
               errors.password && touched.password && "border-red-500"
             } ${styles.input}`}
@@ -108,11 +110,11 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
           )}
         </div>
         <div className="w-full mt-5">
-          <input type="submit" value="Login" className={`${styles.button}`} />
+          <input type="submit" value={t("auth.login_button")} className={`${styles.button}`} />
         </div>
         <br />
         <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
-          Or join with
+          {t("auth.join_with")}
         </h5>
         <div className="flex items-center justify-center my-3">
           <FcGoogle
@@ -127,11 +129,11 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
           />
         </div>
         <h5 className="text-center pt-4 font-Poppins text-[14px]">
-          Not have any account?{" "}
+          {t("auth.no_account")}{" "}
           <span
             className="text-[#2190ff] pl-1 cursor-pointer"
             onClick={() => setRoute("Sign-Up")}>
-            Sign up
+            {t("auth.sign_up")}
           </span>
         </h5>
       </form>

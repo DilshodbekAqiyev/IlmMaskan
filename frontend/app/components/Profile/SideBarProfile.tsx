@@ -6,6 +6,7 @@ import { SiCoursera } from "react-icons/si";
 import { AiOutlineLogout } from "react-icons/ai";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   user: any;
@@ -22,6 +23,7 @@ const SideBarProfile: FC<Props> = ({
   setActive,
   logOutHandler,
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="w-full">
       <div
@@ -40,7 +42,7 @@ const SideBarProfile: FC<Props> = ({
           className="w-[20px] h-[20px] 800px:w-[30px] 800px:h-[30px] cursor-pointer rounded-full"
         />
         <h5 className="pl-2 800px:block hidden font-Poppins dark:text-white text-black">
-          My Account
+          {t("profile.sidebar.my_account")}
         </h5>
       </div>
       <div
@@ -51,7 +53,7 @@ const SideBarProfile: FC<Props> = ({
       >
         <RiLockPasswordLine size={20} className="dark:text-white text-black"  />
         <h5 className="pl-2 800px:block hidden font-Poppins dark:text-white text-black">
-          Change Password
+          {t("profile.sidebar.change_password")}
         </h5>
       </div>
       <div
@@ -62,7 +64,7 @@ const SideBarProfile: FC<Props> = ({
       >
         <SiCoursera size={20} className="dark:text-white text-black"  />
         <h5 className="pl-2 800px:block hidden font-Poppins dark:text-white text-black">
-          Enrolled Courses
+          {t("profile.sidebar.enrolled_courses")}
         </h5>
       </div>
       {user.role === "admin" && (
@@ -74,7 +76,7 @@ const SideBarProfile: FC<Props> = ({
         >
           <MdOutlineAdminPanelSettings size={20} className="dark:text-white text-black"  />
           <h5 className="pl-2 800px:block hidden font-Poppins dark:text-white text-black">
-            Admin Dashboard
+            {t("profile.sidebar.admin_dashboard")}
           </h5>
         </Link>
       )}
@@ -86,7 +88,7 @@ const SideBarProfile: FC<Props> = ({
       >
         <AiOutlineLogout size={20} className="dark:text-white text-black" />
         <h5 className="pl-2 800px:block hidden font-Poppins dark:text-white text-black">
-          Log Out
+          {t("profile.sidebar.logout")}
         </h5>
       </div>
     </div>

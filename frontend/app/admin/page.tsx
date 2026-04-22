@@ -4,17 +4,19 @@ import Heading from "../utils/Heading";
 import AdminSidebar from "../components/Admin/sidebar/AdminSidebar";
 import AdminProtected from "../hooks/adminProtected";
 import DashboardHero from "../components/Admin/DashboardHero";
+import { useTranslation } from "react-i18next";
 
 type Props = {};
 
 const page = (props: Props) => {
+  const { t } = useTranslation();
   return (
     <div>
       <AdminProtected>
         <Heading
-          title="IlmMaskan - Admin"
-          description="IlmMaskan is a platform for students to learn and get help from teachers"
-          keywords="Programming,MERN,Redux,Machine Learning"
+          title={t("page.admin_title")}
+          description={t("page.description")}
+          keywords={t("page.keywords")}
         />
         <div className="flex min-h-screen">
           <div className="1500px:w-[16%] w-1/5">

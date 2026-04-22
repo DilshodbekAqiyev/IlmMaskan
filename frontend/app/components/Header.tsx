@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
 import NavItems from "../utils/NavItems";
 import { ThemeSwitcher } from "../utils/ThemeSwitcher";
+import { LanguageSwitcher } from "../utils/LanguageSwitcher";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 import CustomModal from "../utils/CustomModal";
 import Login from "../components/Auth/Login";
@@ -18,6 +19,7 @@ import {
 import { toast } from "react-hot-toast";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Loader from "./Loader/Loader";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   open: boolean;
@@ -41,6 +43,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const {} = useLogOutQuery(undefined, {
     skip: !logout ? true : false,
   });
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!isLoading) {
@@ -56,7 +59,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
       }
       if (data === null) {
         if (isSuccess) {
-          toast.success("Login Successfully");
+          toast.success(t("header.login_success"));
         }
       }
       if (data === null && !isLoading && !userData) {
@@ -108,6 +111,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                 <div className="flex items-center">
                   <NavItems activeItem={activeItem} isMobile={false} />
                   <ThemeSwitcher />
+                  <LanguageSwitcher />
                   {/* only for mobile */}
                   <div className="800px:hidden">
                     <HiOutlineMenuAlt3
@@ -181,7 +185,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                   <br />
                   <br />
                   <p className="text-[16px] px-2 pl-5 text-black dark:text-white">
-                    Copyright © 2023 IlmMaskan
+                    {t("header.copyright")}
                   </p>
                 </div>
               </div>

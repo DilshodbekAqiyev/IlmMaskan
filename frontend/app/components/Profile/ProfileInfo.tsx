@@ -9,6 +9,7 @@ import {
 } from "@/redux/features/user/userApi";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   avatar: string | null;
@@ -16,6 +17,7 @@ type Props = {
 };
 
 const ProfileInfo: FC<Props> = ({ avatar, user }) => {
+  const { t } = useTranslation();
   const [name, setName] = useState(user && user.name);
   const [updateAvatar, { isSuccess, error }] = useUpdateAvatarMutation();
   const [editProfile, { isSuccess: success, error: updateError }] =
@@ -43,10 +45,10 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
       console.log(error);
     }
     if(success){
-      toast.success("Profile updated successfully!");
+      toast.success(t("profile.info.success"));
       setLoadUser(true);
     }
-  }, [isSuccess, error,success, updateError]);
+  }, [isSuccess, error,success, updateError, t]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -89,7 +91,7 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
         <form onSubmit={handleSubmit}>
           <div className="800px:w-[50%] m-auto block pb-4">
             <div className="w-[100%]">
-              <label className="block pb-2">Full Name</label>
+              <label className="block pb-2">{t("profile.info.full_name")}</label>
               <input
                 type="text"
                 className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
@@ -99,7 +101,7 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
               />
             </div>
             <div className="w-[100%] pt-2">
-              <label className="block pb-2">Email Address</label>
+              <label className="block pb-2">{t("profile.info.email_address")}</label>
               <input
                 type="text"
                 readOnly
@@ -111,7 +113,7 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
             <input
               className={`w-full 800px:w-[250px] h-[40px] border border-[#37a39a] text-center dark:text-[#fff] text-black rounded-[3px] mt-8 cursor-pointer`}
               required
-              value="Update"
+              value={t("profile.info.update_button")}
               type="submit"
             />
           </div>

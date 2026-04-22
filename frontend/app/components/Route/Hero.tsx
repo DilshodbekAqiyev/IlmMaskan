@@ -7,6 +7,7 @@ import { BiSearch } from "react-icons/bi";
 import Loader from "../Loader/Loader";
 import { useRouter } from "next/navigation";
 import img1 from '../../../public/assests/banner-img-1.png'
+import { useTranslation } from "react-i18next";
 
 type Props = {};
 
@@ -14,6 +15,7 @@ const Hero: FC<Props> = (props) => {
   const { data,isLoading } = useGetHeroDataQuery("Banner", {});
   const [search,setSearch] = useState("");
   const router = useRouter()
+  const { t } = useTranslation();
   
 
   const handleSearch = () => {
@@ -55,7 +57,7 @@ const Hero: FC<Props> = (props) => {
         <div className="1500px:w-[55%] 1100px:w-[78%] w-[90%] h-[50px] bg-transparent relative">
           <input
             type="search"
-            placeholder="Search Courses..."
+            placeholder={t("hero.search_placeholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="bg-transparent border dark:border-none dark:bg-[#575757] dark:placeholder:text-[#ffffffdd] rounded-[5px] p-2 w-full h-full outline-none text-[#0000004e] dark:text-[#ffffffe6] text-[20px] font-[500] font-Josefin"
@@ -85,12 +87,12 @@ const Hero: FC<Props> = (props) => {
             className="rounded-full ml-[-20px]"
           />
           <p className="font-Josefin dark:text-[#edfff4] text-[#000000b3] 1000px:pl-3 text-[18px] font-[600]">
-            500K+ People already trusted us.{" "}
+            {t("hero.trusted_by")}
             <Link
               href="/courses"
               className="dark:text-[#46e256] text-[crimson]"
             >
-              View Courses
+              {t("hero.view_courses")}
             </Link>{" "}
           </p>
         </div>

@@ -1,63 +1,43 @@
 import React from "react";
 import { styles } from "../styles/style";
+import { useTranslation } from "react-i18next";
 
 const About = () => {
+  const { t } = useTranslation();
   return (
     <div className="text-black dark:text-white">
       <br />
       <h1 className={`${styles.title} 800px:!text-[45px]`}>
-        What is <span className="text-gradient">E-Learning?</span>
+        {t("about_page.title")} <span className="text-gradient">IlmMaskan</span>
       </h1>
 
       <br />
       <div className="w-[95%] 800px:w-[85%] m-auto">
         <p className="text-[18px] font-Poppins">
-          Are you ready to take your programming skills to the next level? Look
-          no further than E-learning, the premier programming community
-          dedicated to helping new programmers achieve their goals and reach
-          their full potential.
+          {t("about_page.p1")}
           <br />
           <br />
-          As the founder and CEO of E-learning, I know firsthand the challenges
-          that come with learning and growing in the programming industry.
-          That&apos;s why I created E-learning &ndash; to provide new
-          programmers with the resources and support they need to succeed.
+          {t("about_page.p2")}
           <br />
           <br />
-          Our YouTube channel is a treasure trove of informative videos on
-          everything from programming basics to advanced techniques. But
-          that&apos;s just the beginning. Our affordable courses are designed to
-          give you the high-quality education you need to succeed in the
-          industry, without breaking the bank.
+          {t("about_page.p3")}
           <br />
           <br />
-          At E-learning, we believe that price should never be a barrier to
-          achieving your dreams. That&apos;s why our courses are priced low
-          &ndash; so that anyone, regardless of their financial situation, can
-          access the tools and knowledge they need to succeed.
+          {t("about_page.p4")}
           <br />
           <br />
-          But E-learning is more than just a community &ndash; we&apos;re a
-          family. Our supportive community of like-minded individuals is here to
-          help you every step of the way, whether you&apos;re just starting out
-          or looking to take your skills to the next level.
+          {t("about_page.p5")}
           <br />
           <br />
-          With E-learning by your side, there&apos;s nothing standing between
-          you and your dream job. Our courses and community will provide you
-          with the guidance, support, and motivation you need to unleash your
-          full potential and become a skilled programmer.
+          {t("about_page.p6")}
           <br />
           <br />
-          So what are you waiting for? Join the E-learning family today and
-          let&apos;s conquer the programming industry together! With our
-          affordable courses, informative videos, and supportive community, the
-          sky&apos;s the limit.
+          {t("about_page.p7")}
         </p>
         <br />
-        <span className="text-[22px]">Shahriarsajeeb&apos;s</span>
+        <span className="text-[22px]">Dilshodbek Aqiyev</span>
         <h5 className="text-[18px] font-Poppins">
-          Founder and CEO of E-learning
+          {t("about_page.founder_role")}
         </h5>
         <br />
         <br />

@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { AiOutlineDelete, AiOutlinePlusCircle } from "react-icons/ai";
 import { BsLink45Deg, BsPencil } from "react-icons/bs";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   active: number;
@@ -20,6 +21,7 @@ const CourseContent: FC<Props> = ({
   setActive,
   handleSubmit: handlleCourseSubmit,
 }) => {
+  const { t } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState(
     Array(courseContentData.length).fill(false)
   );
@@ -134,12 +136,11 @@ const CourseContent: FC<Props> = ({
             item.videoSection !== courseContentData[index - 1].videoSection;
 
           return (
-            <>
+            <div key={index}>
               <div
                 className={`w-full bg-[#cdc8c817] p-4 ${
                   showSectionInput ? "mt-10" : "mb-0"
                 }`}
-                key={index}
               >
                 {showSectionInput && (
                   <>
@@ -208,7 +209,7 @@ const CourseContent: FC<Props> = ({
                 {!isCollapsed[index] && (
                   <>
                     <div className="my-3">
-                      <label className={styles.label}>Video Title</label>
+                      <label className={styles.label}>{t("admin.course.content.video_title")}</label>
                       <input
                         type="text"
                         placeholder="Project Plan..."
@@ -222,7 +223,7 @@ const CourseContent: FC<Props> = ({
                       />
                     </div>
                     <div className="mb-3">
-                      <label className={styles.label}>Video Url</label>
+                      <label className={styles.label}>{t("admin.course.content.video_url")}</label>
                       <input
                         type="text"
                         placeholder="Enter video url"
@@ -237,7 +238,7 @@ const CourseContent: FC<Props> = ({
                     </div>
                     <div className="mb-3">
                       <label className={styles.label}>
-                        Video Length (in minutes)
+                        {t("admin.course.content.video_length")}
                       </label>
                       <input
                         type="number"
@@ -253,7 +254,7 @@ const CourseContent: FC<Props> = ({
                     </div>
 
                     <div className="mb-3">
-                      <label className={styles.label}>Video Description</label>
+                      <label className={styles.label}>{t("admin.course.content.video_description")}</label>
                       <textarea
                         rows={8}
                         cols={30}
@@ -272,7 +273,7 @@ const CourseContent: FC<Props> = ({
                       <div className="mb-3 block" key={linkIndex}>
                         <div className="w-full flex items-center justify-between">
                           <label className={styles.label}>
-                            Link {linkIndex + 1}
+                            {t("admin.course.content.add_link")} {linkIndex + 1}
                           </label>
                           <AiOutlineDelete
                             className={`${
@@ -289,7 +290,7 @@ const CourseContent: FC<Props> = ({
                         </div>
                         <input
                           type="text"
-                          placeholder="Source Code... (Link title)"
+                          placeholder={t("admin.course.content.link_title")}
                           className={`${styles.input}`}
                           value={link.title}
                           onChange={(e) => {
@@ -301,7 +302,7 @@ const CourseContent: FC<Props> = ({
                         />
                         <input
                           type="url"
-                          placeholder="Source Code Url... (Link URL)"
+                          placeholder={t("admin.course.content.link_url")}
                           className={`${styles.input} mt-6`}
                           value={link.url}
                           onChange={(e) => {
@@ -320,7 +321,7 @@ const CourseContent: FC<Props> = ({
                         className="flex items-center text-[18px] dark:text-white text-black cursor-pointer"
                         onClick={() => handleAddLink(index)}
                       >
-                        <BsLink45Deg className="mr-2" /> Add Link
+                        <BsLink45Deg className="mr-2" /> {t("admin.course.content.add_link")}
                       </p>
                     </div>
                   </>
@@ -333,12 +334,12 @@ const CourseContent: FC<Props> = ({
                       className="flex items-center text-[18px] dark:text-white text-black cursor-pointer"
                       onClick={(e: any) => newContentHandler(item)}
                     >
-                      <AiOutlinePlusCircle className="mr-2" /> Add New Content
+                      <AiOutlinePlusCircle className="mr-2" /> {t("admin.course.content.add_content")}
                     </p>
                   </div>
                 )}
               </div>
-            </>
+            </div>
           );
         })}
         <br />
@@ -346,7 +347,7 @@ const CourseContent: FC<Props> = ({
           className="flex items-center text-[20px] dark:text-white text-black cursor-pointer"
           onClick={() => addNewSection()}
         >
-          <AiOutlinePlusCircle className="mr-2" /> Add new Section
+          <AiOutlinePlusCircle className="mr-2" /> {t("admin.course.content.add_section")}
         </div>
       </form>
       <br />
@@ -355,13 +356,13 @@ const CourseContent: FC<Props> = ({
           className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           onClick={() => prevButton()}
         >
-          Prev
+          {t("admin.course.create.back")}
         </div>
         <div
           className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           onClick={() => handleOptions()}
         >
-          Next
+          {t("admin.course.create.next")}
         </div>
       </div>
       <br />

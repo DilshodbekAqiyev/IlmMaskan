@@ -5,6 +5,11 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_SERVER_URI,
+    prepareHeaders: (headers) => {
+      const language = localStorage.getItem("i18nextLng") || "uz";
+      headers.set("Accept-Language", language);
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     refreshToken: builder.query({

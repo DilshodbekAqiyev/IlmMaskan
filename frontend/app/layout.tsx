@@ -1,5 +1,6 @@
 "use client";
 import "./globals.css";
+import "../utils/i18n";
 // import { Poppins } from "next/font/google";
 // import { Josefin_Sans } from "next/font/google";
 import localFont from "next/font/local";

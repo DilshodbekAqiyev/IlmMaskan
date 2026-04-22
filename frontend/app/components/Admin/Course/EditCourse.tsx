@@ -8,12 +8,14 @@ import CoursePreview from "./CoursePreview";
 import { useEditCourseMutation, useGetAllCoursesQuery } from "../../../../redux/features/courses/coursesApi";
 import { toast } from "react-hot-toast";
 import { redirect } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     id: string;
 };
 
 const EditCourse:FC<Props> = ({id}) => {
+    const { t } = useTranslation();
     const [editCourse,{isSuccess,error}] = useEditCourseMutation();
     const { data, refetch } = useGetAllCoursesQuery(
         {},
@@ -24,7 +26,7 @@ const EditCourse:FC<Props> = ({id}) => {
       
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Course Updated successfully");
+      toast.success(t("admin.course.create.success"));
       redirect("/admin/courses");
     }
     if (error) {

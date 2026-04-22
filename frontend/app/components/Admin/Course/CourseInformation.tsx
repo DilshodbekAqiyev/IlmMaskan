@@ -2,6 +2,7 @@ import { styles } from "@/app/styles/style";
 import { useGetHeroDataQuery } from "@/redux/features/layout/layoutApi";
 import Image from "next/image";
 import React, { FC, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   courseInfo: any;
@@ -16,6 +17,7 @@ const CourseInformation: FC<Props> = ({
   active,
   setActive,
 }) => {
+  const { t } = useTranslation();
   const [dragging, setDragging] = useState(false);
   const { data } = useGetHeroDataQuery("Categories", {});
   const [categories, setCategories] = useState([]);
@@ -58,7 +60,7 @@ const CourseInformation: FC<Props> = ({
   const handleDrop = (e: any) => {
     e.preventDefault();
     setDragging(false);
-
+ 
     const file = e.dataTransfer.files?.[0];
 
     if (file) {
@@ -75,7 +77,7 @@ const CourseInformation: FC<Props> = ({
     <div className="w-[80%] m-auto mt-24">
       <form onSubmit={handleSubmit} className={`${styles.label}`}>
         <div>
-          <label htmlFor="">Course Name</label>
+          <label htmlFor="">{t("admin.course.information.name")}</label>
           <input
             type="name"
             name=""
@@ -85,20 +87,20 @@ const CourseInformation: FC<Props> = ({
               setCourseInfo({ ...courseInfo, name: e.target.value })
             }
             id="name"
-            placeholder="MERN stack LMS platform with next 13"
+            placeholder={t("admin.course.information.name_placeholder")}
             className={`
             ${styles.input}`}
           />
         </div>
         <br />
         <div className="mb-5">
-          <label className={`${styles.label}`}>Course Description</label>
+          <label className={`${styles.label}`}>{t("admin.course.information.description")}</label>
           <textarea
             name=""
             id=""
             cols={30}
             rows={8}
-            placeholder="Write something amazing..."
+            placeholder={t("admin.course.information.description_placeholder")}
             className={`${styles.input} !h-min !py-2`}
             value={courseInfo.description}
             onChange={(e: any) =>
@@ -108,7 +110,7 @@ const CourseInformation: FC<Props> = ({
         <br />
         <div className="w-full flex justify-between">
           <div className="w-[45%]">
-            <label className={`${styles.label}`}>Course Price</label>
+            <label className={`${styles.label}`}>{t("admin.course.information.price")}</label>
             <input
               type="number"
               name=""
@@ -125,7 +127,7 @@ const CourseInformation: FC<Props> = ({
           </div>
           <div className="w-[50%]">
             <label className={`${styles.label} w-[50%]`}>
-              Estimated Price (optional)
+              {t("admin.course.information.estimated_price")}
             </label>
             <input
               type="number"
@@ -145,7 +147,7 @@ const CourseInformation: FC<Props> = ({
         <div className="w-full flex justify-between">
           <div className="w-[45%]">
             <label className={`${styles.label}`} htmlFor="email">
-              Course Tags
+              {t("admin.course.information.tags")}
             </label>
             <input
               type="text"
@@ -156,25 +158,25 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, tags: e.target.value })
               }
               id="tags"
-              placeholder="MERN,Next 13,Socket io,tailwind css,LMS"
+              placeholder={t("admin.course.information.tags_placeholder")}
               className={`
             ${styles.input}`}
             />
           </div>
           <div className="w-[50%]">
             <label className={`${styles.label} w-[50%]`}>
-              Course Categories
+              {t("admin.course.information.categories")}
             </label>
             <select
               name=""
               id=""
               className={`${styles.input}`}
-              value={courseInfo.category}
+              value={courseInfo.categories}
               onChange={(e: any) =>
                 setCourseInfo({ ...courseInfo, categories: e.target.value })
               }>
               <option className="dark:bg-[#000] text-[#fff]" value="">
-                Select Category
+                {t("admin.course.information.select_category")}
               </option>
               {categories &&
                 categories.map((item: any) => (
@@ -191,7 +193,7 @@ const CourseInformation: FC<Props> = ({
         <br />
         <div className="w-full flex justify-between">
           <div className="w-[45%]">
-            <label className={`${styles.label}`}>Course Level</label>
+            <label className={`${styles.label}`}>{t("admin.course.information.level")}</label>
             <input
               type="text"
               name=""
@@ -201,13 +203,13 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, level: e.target.value })
               }
               id="level"
-              placeholder="Beginner/Intermediate/Expert"
+              placeholder={t("admin.course.information.level_placeholder")}
               className={`
             ${styles.input}`}
             />
           </div>
           <div className="w-[50%]">
-            <label className={`${styles.label} w-[50%]`}>Demo Url</label>
+            <label className={`${styles.label} w-[50%]`}>{t("admin.course.information.demo_url")}</label>
             <input
               type="text"
               name=""
@@ -217,7 +219,7 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, demoUrl: e.target.value })
               }
               id="demoUrl"
-              placeholder="Enter Demo Url"
+              placeholder={t("admin.course.information.demo_url_placeholder")}
               className={`
             ${styles.input}`}
             />
@@ -248,7 +250,7 @@ const CourseInformation: FC<Props> = ({
               />
             ) : (
               <span className="text-black dark:text-white">
-                Drag and drop your thumbnail here or click to browse
+                {t("admin.course.information.thumbnail")}
               </span>
             )}
           </label>
@@ -257,7 +259,7 @@ const CourseInformation: FC<Props> = ({
         <div className="w-full flex items-center justify-end">
           <input
             type="submit"
-            value="Next"
+            value={t("admin.course.create.next")}
             className="w-full 800px:w-[180px] h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           />
         </div>

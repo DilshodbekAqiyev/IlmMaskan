@@ -1,9 +1,11 @@
 import Link from "next/link";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {};
 
 const Footer = (props: Props) => {
+  const { t } = useTranslation();
   return (
     <footer>
       <div className="border border-[#0000000e] dark:border-[#ffffff1e]" />
@@ -12,63 +14,63 @@ const Footer = (props: Props) => {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
           <div className="space-y-3">
             <h3 className="text-[20px] font-[600] text-black dark:text-white">
-              About
+              {t("footer.about")}
             </h3>
             <ul className="space-y-4">
               <li>
                 <Link
                   href="/about"
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white">
-                  Our Story
+                  {t("footer.our_story")}
                 </Link>
               </li>
               <li>
                 <Link
                   href="/privacy-policy"
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white">
-                  Privacy Policy
+                  {t("footer.privacy_policy")}
                 </Link>
               </li>
               <li>
                 <Link
                   href="/faq"
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white">
-                  FAQ
+                  {t("nav.faq")}
                 </Link>
               </li>
             </ul>
           </div>
           <div className="space-y-3">
             <h3 className="text-[20px] font-[600] text-black dark:text-white">
-              Quick Links
+              {t("footer.quick_links")}
             </h3>
             <ul className="space-y-4">
               <li>
                 <Link
                   href="/courses"
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white">
-                  Courses
+                  {t("nav.courses")}
                 </Link>
               </li>
               <li>
                 <Link
                   href="/profile"
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white">
-                  My Account
+                  {t("footer.my_account")}
                 </Link>
               </li>
               <li>
                 <Link
                   href="/course-dashboard"
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white">
-                  Course Dashboard
+                  {t("footer.course_dashboard")}
                 </Link>
               </li>
             </ul>
           </div>
           <div className="space-y-3">
             <h3 className="text-[20px] font-[600] text-black dark:text-white">
-              Social Links
+              {t("footer.social_links")}
             </h3>
             <ul className="space-y-4">
               <li>
@@ -96,24 +98,24 @@ const Footer = (props: Props) => {
           </div>
           <div>
             <h3 className="text-[20px] font-[600] text-black dark:text-white pb-3">
-              Contact Info
+              {t("footer.contact_info")}
             </h3>
             <p className="text-base text-black dark:text-gray-300 dark:hover:text-white pb-2">
-              Call Us: 1-885-665-2022
+              {t("footer.call_us")}
             </p>
 
             <p className="text-base text-black dark:text-gray-300 dark:hover:text-white pb-2">
-              Address: +7011 Vermont Ave, Los Angeles, CA 90044
+              {t("footer.address")}
             </p>
 
             <p className="text-base text-black dark:text-gray-300 dark:hover:text-white  pb-2">
-              Mail Us: hello@IlmMaskan.com
+              {t("footer.mail_us")}
             </p>
           </div>
         </div>
         <br />
         <p className="text-center text-black dark:text-white">
-          Copyright © 2023 IlmMaskan | All Rights Reserved
+          {t("footer.copyright")}
         </p>
       </div>
       <br />

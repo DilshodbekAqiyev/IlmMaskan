@@ -1,0 +1,222 @@
+{
+  "nav": {
+    "home": "Bosh sahifa",
+    "courses": "Kurslar",
+    "about": "Biz haqimizda",
+    "policy": "Qoidalar",
+    "faq": "Ko'p so'raladigan savollar"
+  },
+  "header": {
+    "login_success": "Tizimga muvaffaqiyatli kirdingiz",
+    "copyright": "Mualliflik huquqi © 2023 IlmMaskan"
+  },
+  "page": {
+    "title": "IlmMaskan - Bilim sari yo'lingiz",
+    "description": "IlmMaskan o'quvchilar uchun o'rganish va o'qituvchilardan yordam olish platformasi",
+    "keywords": "Dasturlash,MERN,Redux,Machine Learning",
+    "about_title": "Biz haqimizda - IlmMaskan",
+    "policy_title": "Qoidalar - IlmMaskan",
+    "faq_title": "Ko'p so'raladigan savollar - IlmMaskan",
+    "admin_title": "IlmMaskan - Admin",
+    "profile_title": "{{name}} profili - IlmMaskan"
+  },
+  "hero": {
+    "search_placeholder": "Kurslarni qidirish...",
+    "trusted_by": "500 mingdan ortiq insonlar bizga ishonishadi. ",
+    "view_courses": "Kurslarni ko'rish"
+  },
+  "courses": {
+    "title": "Karyerangizni kengaytiring",
+    "opportunity": "Imkoniyat",
+    "subtitle": "Bizning kurslarimiz orqali imkoniyat",
+    "students": "O'quvchilar",
+    "free": "Bepul",
+    "lectures": "Darslar"
+  },
+  "reviews": {
+    "title1": "O'quvchilarimiz bizning",
+    "strength": "Kuchimiz",
+    "title2": "Ular biz haqimizda nima deyishlarini ko'ring",
+    "lorem": "Bizning platformamiz orqali minglab o'quvchilar o'z maqsadlariga erishdilar. Ularning fikrlari bizni yanada rivojlanishga undaydi."
+  },
+  "review_data": {
+    "r1": {
+      "profession": "Talaba | Kembrij universiteti",
+      "comment": "IlmMaskan platformasini o'rganishdan juda xursand bo'ldim. Bu yerda turli texnologik mavzularda keng ko'lamli kurslar mavjud. Tajribamdan juda mamnunman!"
+    },
+    "r2": {
+      "profession": "Full stack dasturchi | Quarter ltd.",
+      "comment": "Ajoyib darslar uchun rahmat! O'qitish uslubi juda ajoyib va darslar sifati yuqori darajada. Murakkab mavzularni oson tushuntirib berish qobiliyati hayratlanarli."
+    },
+    "r3": {
+      "profession": "Tizim muhandisligi talabasi | O'zbekiston",
+      "comment": "Darslar sifati va tushuntirish uslubi menga juda yoqdi. Amaliy loyihalar nazariy bilimlarni mustahkamlashga yordam beradi."
+    },
+    "r4": {
+      "profession": "Junior veb-dasturchi | O'zbekiston",
+      "comment": "IlmMaskan turli texnologik mavzularda keng ko'lamli kurslarni taklif qiladi. Men tajribamdan juda mamnunman."
+    }
+  },
+  "faq": {
+    "title": "Ko'p so'raladigan savollar"
+  },
+  "footer": {
+    "about": "Biz haqimizda",
+    "our_story": "Bizning tariximiz",
+    "privacy_policy": "Maxfiylik siyosati",
+    "quick_links": "Tezkor havolalar",
+    "my_account": "Mening hisobim",
+    "course_dashboard": "Kurslar paneli",
+    "social_links": "Ijtimoiy tarmoqlar",
+    "contact_info": "Bog'lanish uchun",
+    "call_us": "Qo'ng'iroq qiling: 1-885-665-2022",
+    "address": "Manzil: +7011 Vermont Ave, Los Angeles, CA 90044",
+    "mail_us": "Pochta: hello@IlmMaskan.com",
+    "copyright": "Mualliflik huquqi © 2023 IlmMaskan | Barcha huquqlar himoyalangan"
+  },
+  "auth": {
+    "login_title": "IlmMaskan-ga kiring",
+    "enter_email": "Elektron pochtangizni kiriting",
+    "email_placeholder": "loginmail@gmail.com",
+    "enter_password": "Parolingizni kiriting",
+    "password_placeholder": "parol!@%",
+    "login_button": "Kirish",
+    "login_success": "Tizimga muvaffaqiyatli kirdingiz!",
+    "join_with": "Yoki orqali kiring",
+    "no_account": "Hisobingiz yo'qmi?",
+    "sign_up": "Ro'yxatdan o'tish",
+    "signup_title": "IlmMaskan-ga qo'shiling",
+    "enter_name": "Ismingizni kiriting",
+    "name_placeholder": "Dilshodbek",
+    "signup_button": "Ro'yxatdan o'tish",
+    "signup_success": "Muvaffaqiyatli ro'yxatdan o'tdingiz!",
+    "already_have_account": "Hisobingiz bormi?",
+    "sign_in": "Kirish",
+    "verify_title": "Hisobingizni tasdiqlang",
+    "verify_button": "Tasdiqlash",
+    "invalid_email": "Noto'g'ri elektron pochta!",
+    "email_required": "Iltimos, elektron pochtangizni kiriting!",
+    "password_required": "Iltimos, parolingizni kiriting!",
+    "password_min": "Parol kamida 6 ta belgidan iborat bo'lishi kerak",
+    "name_required": "Iltimos, ismingizni kiriting!",
+    "go_back_login": "Tizimga kirishga qaytish?",
+    "account_activated": "Hisob muvaffaqiyatli faollashtirildi!"
+  },
+  "admin": {
+    "sidebar": {
+      "dashboard": "Boshqaruv paneli",
+      "data": "Ma'lumotlar",
+      "users": "Foydalanuvchilar",
+      "invoices": "Hisob-fakturalar",
+      "content": "Kontent",
+      "create_course": "Kurs yaratish",
+      "live_courses": "Mavjud kurslar",
+      "customization": "Moslashtirish",
+      "hero": "Asosiy banner",
+      "faq": "Savol-javoblar",
+      "categories": "Kategoriyalar",
+      "controllers": "Boshqaruvchilar",
+      "manage_team": "Jamoani boshqarish",
+      "analytics": "Tahlil",
+      "courses_analytics": "Kurslar tahlili",
+      "orders_analytics": "Buyurtmalar tahlili",
+      "users_analytics": "Foydalanuvchilar tahlili",
+      "extras": "Qo'shimcha",
+      "logout": "Chiqish"
+    },
+    "dashboard": {
+      "title": "Boshqaruv paneli",
+      "notifications": "Bildirishnomalar",
+      "mark_as_read": "O'qilgan deb belgilash"
+    },
+    "course": {
+      "create": {
+        "title": "Kurs yaratish",
+        "success": "Kurs muvaffaqiyatli yaratildi",
+        "next": "Keyingi",
+        "back": "Orqaga",
+        "create_button": "Yaratish"
+      },
+      "information": {
+        "name": "Kurs nomi",
+        "name_placeholder": "MERN stack LMS platformasi...",
+        "description": "Kurs tavsifi",
+        "description_placeholder": "Ajoyib narsa yozing...",
+        "price": "Kurs narxi",
+        "estimated_price": "Asl narxi (ixtiyoriy)",
+        "tags": "Kurs teglari",
+        "tags_placeholder": "MERN, Next 13, Socket io...",
+        "categories": "Kurs kategoriyalari",
+        "select_category": "Kategoriyani tanlang",
+        "level": "Kurs darajasi",
+        "level_placeholder": "Boshlang'ich/O'rta/Ekspert",
+        "demo_url": "Demo video havolasi",
+        "demo_url_placeholder": "Havolani kiriting",
+        "thumbnail": "Thumbnail yuklang yoki shu yerga tashlang"
+      },
+      "data": {
+        "benefits": "Ushbu kursda o'quvchilar nimalarni o'rganishadi?",
+        "benefits_placeholder": "Siz ushbu kurs orqali...",
+        "prerequisites": "Ushbu kursni boshlash uchun nimalar talab qilinadi?",
+        "prerequisites_placeholder": "Sizga MERN stack bilimlari kerak bo'ladi...",
+        "add_item": "Yana qo'shish"
+      },
+      "content": {
+        "video_title": "Video sarlavhasi",
+        "video_url": "Video havolasi",
+        "video_length": "Video davomiyligi (minut)",
+        "video_description": "Video tavsifi",
+        "add_link": "Havola qo'shish",
+        "link_title": "Havola nomi",
+        "link_url": "Havola manzili",
+        "add_content": "Yangi kontent qo'shish",
+        "add_section": "Yangi bo'lim qo'shish"
+      }
+    }
+  },
+  "about_page": {
+    "title": "IlmMaskan nima?",
+    "p1": "Dasturlash ko'nikmalaringizni keyingi bosqichga olib chiqishga tayyormisiz? Yangi dasturchilarga o'z maqsadlariga erishishda va o'z imkoniyatlarini to'liq ro'yobga chiqarishda yordam berishga bag'ishlangan eng yaxshi dasturlash hamjamiyati - IlmMaskan-ga xush kelibsiz.",
+    "p2": "IlmMaskan asoschisi sifatida men dasturlash sohasida o'rganish va rivojlanish bilan bog'liq qiyinchiliklarni yaxshi bilaman. Shuning uchun ham men IlmMaskan-ni yaratdim - yangi dasturchilarni muvaffaqiyatga erishishlari uchun kerakli resurslar va yordam bilan ta'minlash uchun.",
+    "p3": "Bizning YouTube kanalimiz dasturlash asoslaridan tortib ilg'or usullargacha bo'lgan hamma narsaga oid ma'lumot beruvchi videolarning xazinasi hisoblanadi. Ammo bu faqat boshlanishi. Bizning hamyonbop kurslarimiz sizga sohada muvaffaqiyat qozonish uchun zarur bo'lgan yuqori sifatli ta'limni bankni sindirmasdan (katta mablag' sarflamasdan) berishga mo'ljallangan.",
+    "p4": "IlmMaskan-da biz narx hech qachon orzularingizga erishishda to'siq bo'lmasligi kerak deb hisoblaymiz. Shuning uchun bizning kurslarimiz arzon narxlarda - toki har kim, moliyaviy ahvolidan qat'i nazar, muvaffaqiyatga erishish uchun zarur bo'lgan vositalar va bilimlarga ega bo'lishi mumkin.",
+    "p5": "Ammo IlmMaskan shunchaki hamjamiyat emas - biz oilamiz. Bizning hamfikr shaxslardan iborat qo'llab-quvvatlovchi hamjamiyatimiz sizga har qadamda yordam berish uchun shu yerda, siz endigina boshlayapsizmi yoki o'z mahoratingizni keyingi bosqichga olib chiqmoqchimisiz.",
+    "p6": "Yoningizda IlmMaskan bilan orzuingizdagi ish o'rtasida hech narsa to'sqinlik qila olmaydi. Bizning kurslarimiz va hamjamiyatimiz sizga o'z salohiyatingizni to'liq ochib berish va malakali dasturchi bo'lishingiz uchun kerak bo'lgan yo'l-yo'riq, yordam va motivatsiyani beradi.",
+    "p7": "Xo'sh, nima kutyapsiz? Bugun IlmMaskan oilasiga qo'shiling va dasturlash sanoatini birgalikda zabt etaylik! Bizning hamyonbop kurslarimiz, ma'lumot beruvchi videolarimiz va qo'llab-quvvatlovchi hamjamiyatimiz bilan osmon ham chegara emas (imkoniyatlar cheksiz).",
+    "founder_role": "IlmMaskan asoschisi va direktori"
+  },
+  "policy_page": {
+    "title": "Platforma qoidalari va shartlari",
+    "p1": "IlmMaskan platformasidan foydalanish orqali siz quyidagi shartlarga rozilik bildirasiz. Biz foydalanuvchilarimizga yuqori sifatli ta'lim berishga intilamiz.",
+    "p2": "Barcha kurs kontentlari mualliflik huquqi bilan himoyalangan. Ulardan ruxsatsiz foydalanish yoki nusxa ko'chirish qat'iyan man etiladi.",
+    "p3": "Foydalanuvchilar o'z hisob ma'lumotlarining xavfsizligi uchun mas'uldirlar. Shubhali harakatlar sezilsa, darhol ma'muriyatga xabar bering.",
+    "p4": "Kurslarni sotib olish va qaytarish shartlari har bir kurs uchun alohida belgilanishi mumkin. Iltimos, xarid qilishdan oldin batafsil tanishib chiqing.",
+    "p5": "Biz foydalanuvchilarimizning shaxsiy ma'lumotlarini qadrlaymiz va ularni uchinchi shaxslarga tarqatmaymiz.",
+    "p6": "Platforma qoidalari vaqt o'tishi bilan yangilanishi mumkin. Yangilanishlar haqida foydalanuvchilarga xabar beriladi."
+  },
+  "profile": {
+    "no_courses": "Sizda sotib olingan kurslar mavjud emas!",
+    "sidebar": {
+      "my_account": "Mening hisobim",
+      "change_password": "Parolni o'zgartirish",
+      "enrolled_courses": "Sotib olingan kurslar",
+      "admin_dashboard": "Admin paneli",
+      "logout": "Chiqish"
+    },
+    "info": {
+      "success": "Profil muvaffaqiyatli yangilandi!",
+      "full_name": "To'liq ismingiz",
+      "email_address": "Elektron pochta manzili",
+      "update_button": "Yangilash"
+    },
+    "password": {
+      "title": "Parolni o'zgartirish",
+      "old_password": "Eski parolingizni kiriting",
+      "new_password": "Yangi parolingizni kiriting",
+      "confirm_password": "Yangi parolni tasdiqlang",
+      "mismatch": "Parollar mos kelmadi",
+      "success": "Parol muvaffaqiyatli o'zgartirildi",
+      "update_button": "Yangilash"
+    }
+  }
+}

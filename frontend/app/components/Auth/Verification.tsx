@@ -4,6 +4,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -17,13 +18,14 @@ type VerifyNumber = {
 };
 
 const Verification: FC<Props> = ({ setRoute }) => {
+  const { t } = useTranslation();
   const { token } = useSelector((state: any) => state.auth);
   const [activation, { isSuccess, error }] = useActivationMutation();
   const [invalidError, setInvalidError] = useState<boolean>(false);
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Account activated successfully");
+      toast.success(t("auth.account_activated"));
       setRoute("Login");
     }
     if (error) {
@@ -78,7 +80,7 @@ const Verification: FC<Props> = ({ setRoute }) => {
 
   return (
     <div>
-      <h1 className={`${styles.title}`}>Verify Your Account</h1>
+      <h1 className={`${styles.title}`}>{t("auth.verify_title")}</h1>
       <br />
       <div className="w-full flex items-center justify-center mt-2">
         <div className="w-[80px] h-[80px] rounded-full bg-[#497DF2] flex items-center justify-center">
@@ -109,16 +111,16 @@ const Verification: FC<Props> = ({ setRoute }) => {
       <br />
       <div className="w-full flex justify-center">
         <button className={`${styles.button}`} onClick={verificationHandler}>
-          Verify OTP
+          {t("auth.verify_button")}
         </button>
       </div>
       <br />
       <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
-        Go back to sign in?{" "}
+        {t("auth.go_back_login")}{" "}
         <span
           className="text-[#2190ff] pl-1 cursor-pointer"
           onClick={() => setRoute("Login")}>
-          Sign in
+          {t("auth.sign_in")}
         </span>
       </h5>
     </div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const navItemsData = [
   {
@@ -30,6 +31,7 @@ type Props = {
 };
 
 const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
+  const { t } = useTranslation();
   return (
     <>
       <div className="hidden 800px:flex">
@@ -42,7 +44,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
                     ? "dark:text-[#37a39a] text-[crimson]"
                     : "dark:text-white text-black"
                 } text-[18px] px-6 font-Poppins font-[400]`}>
-                {i.name}
+                {t(`nav.${i.name.toLowerCase()}`)}
               </span>
             </Link>
           ))}
@@ -66,7 +68,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
                       ? "dark:text-[#37a39a] text-[crimson]"
                       : "dark:text-white text-black"
                   } block py-5 text-[18px] px-6 font-Poppins font-[400]`}>
-                  {i.name}
+                  {t(`nav.${i.name.toLowerCase()}`)}
                 </span>
               </Link>
             ))}

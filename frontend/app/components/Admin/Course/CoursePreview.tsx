@@ -3,6 +3,7 @@ import CoursePlayer from "../../../utils/CoursePlayer";
 import { styles } from "../../../../app/styles/style";
 import Ratings from "../../../../app/utils/Ratings";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   active: number;
@@ -19,6 +20,7 @@ const CoursePreview: FC<Props> = ({
   active,
   isEdit
 }) => {
+  const { t } = useTranslation();
   const dicountPercentenge =
     ((courseData?.estimatedPrice - courseData?.price) /
       courseData?.estimatedPrice) *
@@ -45,7 +47,7 @@ const CoursePreview: FC<Props> = ({
         </div>
         <div className="flex items-center">
           <h1 className="pt-5 text-[25px]">
-            {courseData?.price === 0 ? "Free" : courseData?.price + "$"}
+            {courseData?.price === 0 ? t("courses.free") : courseData?.price + "$"}
           </h1>
           <h5 className="pl-3 text-[20px] mt-2 line-through opacity-80">
             {courseData?.estimatedPrice}$
@@ -93,11 +95,11 @@ const CoursePreview: FC<Props> = ({
               <Ratings rating={0} />
               <h5>0 Reviews</h5>
             </div>
-            <h5>0 Students</h5>
+            <h5>0 {t("courses.students")}</h5>
           </div>
           <br />
           <h1 className="text-[25px] font-Poppins font-[600]">
-            What you will learn from this course?
+            {t("admin.course.data.benefits")}
           </h1>
         </div>
         {courseData?.benefits?.map((item: any, index: number) => (
@@ -111,7 +113,7 @@ const CoursePreview: FC<Props> = ({
         <br />
         <br />
         <h1 className="text-[25px] font-Poppins font-[600]">
-          What are the prerequisites for starting this course?
+          {t("admin.course.data.prerequisites")}
         </h1>
         {courseData?.prerequisites?.map((item: any, index: number) => (
           <div className="w-full flex 800px:items-center py-2" key={index}>
@@ -126,7 +128,7 @@ const CoursePreview: FC<Props> = ({
         {/* course description */}
         <div className="w-full">
           <h1 className="text-[25px] font-Poppins font-[600]">
-            Course Details
+            {t("admin.course.information.description")}
           </h1>
           <p className="text-[18px] mt-[20px] whitespace-pre-line w-full overflow-hidden">
             {courseData?.description}
@@ -140,14 +142,14 @@ const CoursePreview: FC<Props> = ({
           className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           onClick={() => prevButton()}
         >
-          Prev
+          {t("admin.course.create.back")}
         </div>
         <div
           className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           onClick={() => createCourse()}
         >
          {
-          isEdit ? 'Update' : 'Create'
+          isEdit ? 'Update' : t("admin.course.create.create_button")
          }
         </div>
       </div>

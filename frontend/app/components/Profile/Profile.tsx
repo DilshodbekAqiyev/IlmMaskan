@@ -7,6 +7,7 @@ import ProfileInfo from "./ProfileInfo";
 import ChangePassword from "./ChangePassword";
 import CourseCard from "../Course/CourseCard";
 import { useGetUsersAllCoursesQuery } from "@/redux/features/courses/coursesApi";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   user: any;
@@ -24,6 +25,7 @@ const Profile: FC<Props> = ({ user }) => {
   });
 
   const [active, setActive] = useState(1);
+  const { t } = useTranslation();
 
   const logOutHandler = async () => {
     setLogout(true);
@@ -88,7 +90,7 @@ const Profile: FC<Props> = ({ user }) => {
           </div>
           {courses.length === 0 && (
             <h1 className="text-center text-[18px] font-Poppins dark:text-white text-black">
-              You don&apos;t have any purchased courses!
+              {t("profile.no_courses")}
             </h1>
           )}
         </div>

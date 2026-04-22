@@ -8,16 +8,18 @@ import CoursePreview from "./CoursePreview";
 import { useCreateCourseMutation } from "../../../../redux/features/courses/coursesApi";
 import { toast } from "react-hot-toast";
 import { redirect } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 type Props = {};
 
 const CreateCourse = (props: Props) => {
+  const { t } = useTranslation();
   const [createCourse, { isLoading, isSuccess, error }] =
     useCreateCourseMutation();
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Course created successfully");
+      toast.success(t("admin.course.create.success"));
       redirect("/admin/courses");
     }
     if (error) {

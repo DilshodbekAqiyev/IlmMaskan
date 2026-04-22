@@ -8,6 +8,7 @@ import React, { FC, useEffect, useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import socketIO from "socket.io-client";
 import { format } from "timeago.js";
+import { useTranslation } from "react-i18next";
 const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || "";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
@@ -17,6 +18,7 @@ type Props = {
 };
 
 const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
+  const { t } = useTranslation();
   const { data, refetch } = useGetAllNotificationsQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
@@ -72,7 +74,7 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
       {open && (
         <div className="w-[350px] h-[60vh] overflow-y-scroll py-3 px-2 border border-[#ffffff0c] dark:bg-[#111C43] bg-white shadow-xl absolute top-16 z-[1000000000] rounded">
           <h5 className="text-center text-[20px] font-Poppins text-black dark:text-white p-3">
-            Notifications
+            {t("admin.dashboard.notifications")}
           </h5>
           {notifications &&
             notifications.map((item: any, index: number) => (
@@ -84,7 +86,7 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
                   <p
                     className="text-black dark:text-white cursor-pointer"
                     onClick={() => handleNotificationStatusChange(item._id)}>
-                    Mark as read
+                    {t("admin.dashboard.mark_as_read")}
                   </p>
                 </div>
                 <p className="px-2 text-black dark:text-white">
