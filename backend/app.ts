@@ -11,12 +11,16 @@ import notificationRouter from "./routes/notification.route";
 import analyticsRouter from "./routes/analytics.route";
 import layoutRouter from "./routes/layout.route";
 import { rateLimit } from "express-rate-limit";
+import { i18next, middleware } from "./utils/i18n";
 
 // body parser
 app.use(express.json({ limit: "50mb" }));
 
 // cookie parser
 app.use(cookieParser());
+
+// i18next middleware
+app.use(middleware.handle(i18next));
 
 // cors => cross origin resource sharing
 // origin: process.env.ORIGIN,

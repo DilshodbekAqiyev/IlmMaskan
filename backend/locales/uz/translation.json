@@ -1,0 +1,46 @@
+{
+  "error": {
+    "invalid_email": "Iltimos, yaroqli elektron pochta manzilini kiriting",
+    "temp_email": "Iltimos, doimiy elektron pochta manzilidan foydalaning. Vaqtinchalik pochtalar qabul qilinmaydi.",
+    "email_exists": "Ushbu elektron pochta allaqachon mavjud",
+    "invalid_activation_code": "Faollashtirish kodi noto'g'ri",
+    "enter_email_password": "Iltimos, elektron pochta va parolingizni kiriting",
+    "invalid_email_password": "Elektron pochta yoki parol noto'g'ri",
+    "could_not_refresh": "Tokenni yangilab bo'lmadi",
+    "please_login": "Ushbu manbaga kirish uchun tizimga kiring!",
+    "invalid_user": "Yaroqsiz foydalanuvchi",
+    "invalid_old_password": "Eski parol noto'g'ri",
+    "user_not_found": "Foydalanuvchi topilmadi",
+    "invalid_course_id": "Kurs ID noto'g'ri",
+    "course_not_found": "Kurs topilmadi",
+    "already_purchased": "Siz bu kursni allaqachon sotib olgansiz",
+    "question_not_found": "Savol topilmadi",
+    "review_not_found": "Fikr topilmadi",
+    "reply_not_found": "Javob topilmadi"
+  },
+  "success": {
+    "check_email": "Iltimos, hisobingizni faollashtirish uchun emailingizni ({{email}}) tekshiring!",
+    "logged_out": "Tizimdan muvaffaqiyatli chiqdingiz",
+    "user_deleted": "Foydalanuvchi muvaffaqiyatli o'chirildi",
+    "course_deleted": "Kurs muvaffaqiyatli o'chirildi",
+    "order_created": "Buyurtma muvaffaqiyatli yaratildi",
+    "reply_added": "Javob muvaffaqiyatli qo'shildi",
+    "question_added": "Savol muvaffaqiyatli qo'shildi",
+    "review_added": "Fikr muvaffaqiyatli qo'shildi"
+  },
+  "email": {
+    "activation_subject": "Hisobingizni faollashtiring",
+    "order_subject": "Buyurtmani tasdiqlash",
+    "reply_subject": "Savolga yangi javob"
+  },
+  "notifications": {
+    "new_order_title": "Yangi buyurtma",
+    "new_order_message": "Sizda {{courseName}} kursidan yangi buyurtma bor",
+    "new_question_title": "Yangi savol",
+    "new_question_message": "Sizda {{courseName}} kursida yangi savol bor",
+    "new_reply_title": "Yangi javob",
+    "new_reply_message": "Savolingizga yangi javob berildi",
+    "new_review_title": "Yangi fikr",
+    "new_review_message": "{{userName}} tomonidan {{courseName}} kursiga fikr qoldirildi"
+  }
+}

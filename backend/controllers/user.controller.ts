@@ -35,7 +35,7 @@ export const registrationUser = CatchAsyncError(
       // Check if email is valid using regex
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        return next(new ErrorHandler("Please enter a valid email address", 400));
+        return next(new ErrorHandler((req as any).t("error.invalid_email"), 400));
       }
 
       // Block temporary/disposable email domains
@@ -70,12 +70,12 @@ export const registrationUser = CatchAsyncError(
       );
 
       if (isDomainBlocked) {
-        return next(new ErrorHandler("Please use a valid permanent email address. Temporary/disposable emails are not allowed.", 400));
+        return next(new ErrorHandler((req as any).t("error.temp_email"), 400));
       }
 
       const isEmailExist = await userModel.findOne({ email });
       if (isEmailExist) {
-        return next(new ErrorHandler("Email already exists", 400));
+        return next(new ErrorHandler((req as any).t("error.email_exists"), 400));
       }
 
       const user: IRegistrationBody = {
@@ -97,14 +97,14 @@ export const registrationUser = CatchAsyncError(
       try {
         await sendMail({
           email: user.email,
-          subject: "Activate your account",
+          subject: (req as any).t("email.activation_subject"),
           template: "activation-mail.ejs",
           data,
         });
 
         res.status(201).json({
           success: true,
-          message: `Please check your email: ${user.email} to activate your account!`,
+          message: (req as any).t("success.check_email", { email: user.email }),
           activationToken: activationToken.token,
         });
       } catch (error: any) {
@@ -156,7 +156,7 @@ export const activateUser = CatchAsyncError(
       ) as { user: IUser; activationCode: string };
 
       if (newUser.activationCode !== activation_code) {
-        return next(new ErrorHandler("Invalid activation code", 400));
+        return next(new ErrorHandler((req as any).t("error.invalid_activation_code"), 400));
       }
 
       const { name, email, password } = newUser.user;
@@ -164,7 +164,7 @@ export const activateUser = CatchAsyncError(
       const existUser = await userModel.findOne({ email });
 
       if (existUser) {
-        return next(new ErrorHandler("Email already exist", 400));
+        return next(new ErrorHandler((req as any).t("error.email_exists"), 400));
       }
       const user = await userModel.create({
         name,
@@ -193,18 +193,18 @@ export const loginUser = CatchAsyncError(
       const { email, password } = req.body as ILoginRequest;
 
       if (!email || !password) {
-        return next(new ErrorHandler("Please enter email and password", 400));
+        return next(new ErrorHandler((req as any).t("error.enter_email_password"), 400));
       }
 
       const user = await userModel.findOne({ email }).select("+password");
 
       if (!user) {
-        return next(new ErrorHandler("Invalid email or password", 400));
+        return next(new ErrorHandler((req as any).t("error.invalid_email_password"), 400));
       }
 
       const isPasswordMatch = await user.comparePassword(password);
       if (!isPasswordMatch) {
-        return next(new ErrorHandler("Invalid email or password", 400));
+        return next(new ErrorHandler((req as any).t("error.invalid_email_password"), 400));
       }
 
       sendToken(user, 200, res);
@@ -224,7 +224,7 @@ export const logoutUser = CatchAsyncError(
       redis.del(userId);
       res.status(200).json({
         success: true,
-        message: "Logged out successfully",
+        message: (req as any).t("success.logged_out"),
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
@@ -242,7 +242,7 @@ export const updateAccessToken = CatchAsyncError(
         process.env.REFRESH_TOKEN as string
       ) as JwtPayload;
 
-      const message = "Could not refresh token";
+      const message = (req as any).t("error.could_not_refresh");
       if (!decoded) {
         return next(new ErrorHandler(message, 400));
       }
@@ -250,7 +250,7 @@ export const updateAccessToken = CatchAsyncError(
          
       if (!session) {
         return next(
-          new ErrorHandler("Please login for access this resources!", 400)
+          new ErrorHandler((req as any).t("error.please_login"), 400)
         );
       }
       
@@ -366,19 +366,19 @@ export const updatePassword = CatchAsyncError(
       const { oldPassword, newPassword } = req.body as IUpdatePassword;
 
       if (!oldPassword || !newPassword) {
-        return next(new ErrorHandler("Please enter old and new password", 400));
+        return next(new ErrorHandler((req as any).t("error.enter_email_password"), 400)); // "enter_email_password" might be wrong context, better generic or missing fields
       }
 
       const user = await userModel.findById(req.user?._id).select("+password");
 
       if (user?.password === undefined) {
-        return next(new ErrorHandler("Invalid user", 400));
+        return next(new ErrorHandler((req as any).t("error.invalid_user"), 400));
       }
 
       const isPasswordMatch = await user?.comparePassword(oldPassword);
 
       if (!isPasswordMatch) {
-        return next(new ErrorHandler("Invalid old password", 400));
+        return next(new ErrorHandler((req as any).t("error.invalid_old_password"), 400));
       }
 
       user.password = newPassword;
@@ -474,7 +474,7 @@ export const updateUserRole = CatchAsyncError(
       } else {
         res.status(400).json({
           success: false,
-          message: "User not found",
+          message: (req as any).t("error.user_not_found"),
         });
       }
     } catch (error: any) {
@@ -492,7 +492,7 @@ export const deleteUser = CatchAsyncError(
       const user = await userModel.findById(id);
 
       if (!user) {
-        return next(new ErrorHandler("User not found", 404));
+        return next(new ErrorHandler((req as any).t("error.user_not_found"), 404));
       }
 
       await user.deleteOne({ id });
@@ -501,7 +501,7 @@ export const deleteUser = CatchAsyncError(
 
       res.status(200).json({
         success: true,
-        message: "User deleted successfully",
+        message: (req as any).t("success.user_deleted"),
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));

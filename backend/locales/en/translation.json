@@ -1,0 +1,46 @@
+{
+  "error": {
+    "invalid_email": "Please enter a valid email address",
+    "temp_email": "Please use a valid permanent email address. Temporary/disposable emails are not allowed.",
+    "email_exists": "Email already exists",
+    "invalid_activation_code": "Invalid activation code",
+    "enter_email_password": "Please enter email and password",
+    "invalid_email_password": "Invalid email or password",
+    "could_not_refresh": "Could not refresh token",
+    "please_login": "Please login to access this resource!",
+    "invalid_user": "Invalid user",
+    "invalid_old_password": "Invalid old password",
+    "user_not_found": "User not found",
+    "invalid_course_id": "Invalid course ID",
+    "course_not_found": "Course not found",
+    "already_purchased": "You have already purchased this course",
+    "question_not_found": "Question not found",
+    "review_not_found": "Review not found",
+    "reply_not_found": "Reply not found"
+  },
+  "success": {
+    "check_email": "Please check your email: {{email}} to activate your account!",
+    "logged_out": "Logged out successfully",
+    "user_deleted": "User deleted successfully",
+    "course_deleted": "Course deleted successfully",
+    "order_created": "Order created successfully",
+    "reply_added": "Reply added successfully",
+    "question_added": "Question added successfully",
+    "review_added": "Review added successfully"
+  },
+  "email": {
+    "activation_subject": "Activate your account",
+    "order_subject": "Order Confirmation",
+    "reply_subject": "New reply to your question"
+  },
+  "notifications": {
+    "new_order_title": "New Order",
+    "new_order_message": "You have a new order from {{courseName}}",
+    "new_question_title": "New Question",
+    "new_question_message": "You have a new question in {{courseName}}",
+    "new_reply_title": "New Reply",
+    "new_reply_message": "A new reply has been added to your question",
+    "new_review_title": "New Review",
+    "new_review_message": "{{userName}} has given a review in {{courseName}}"
+  }
+}

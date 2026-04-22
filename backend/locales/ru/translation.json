@@ -1,0 +1,46 @@
+{
+  "error": {
+    "invalid_email": "Пожалуйста, введите действительный адрес электронной почты",
+    "temp_email": "Пожалуйста, используйте постоянный адрес. Временные адреса электронной почты не допускаются.",
+    "email_exists": "Этот адрес электронной почты уже существует",
+    "invalid_activation_code": "Неверный код активации",
+    "enter_email_password": "Пожалуйста, введите почту и пароль",
+    "invalid_email_password": "Неверный адрес электронной почты или пароль",
+    "could_not_refresh": "Не удалось обновить токен",
+    "please_login": "Пожалуйста, войдите в систему для доступа к этому ресурсу!",
+    "invalid_user": "Недействительный пользователь",
+    "invalid_old_password": "Неверный старый пароль",
+    "user_not_found": "Пользователь не найден",
+    "invalid_course_id": "Неверный ID курса",
+    "course_not_found": "Курс не найден",
+    "already_purchased": "Вы уже приобрели этот курс",
+    "question_not_found": "Вопрос не найден",
+    "review_not_found": "Отзыв не найден",
+    "reply_not_found": "Ответ не найден"
+  },
+  "success": {
+    "check_email": "Пожалуйста, проверьте вашу почту: {{email}}, чтобы активировать аккаунт!",
+    "logged_out": "Успешный выход из системы",
+    "user_deleted": "Пользователь успешно удален",
+    "course_deleted": "Курс успешно удален",
+    "order_created": "Заказ успешно создан",
+    "reply_added": "Ответ успешно добавлен",
+    "question_added": "Вопрос успешно добавлен",
+    "review_added": "Отзыв успешно добавлен"
+  },
+  "email": {
+    "activation_subject": "Активируйте ваш аккаунт",
+    "order_subject": "Подтверждение заказа",
+    "reply_subject": "Новый ответ на ваш вопрос"
+  },
+  "notifications": {
+    "new_order_title": "Новый заказ",
+    "new_order_message": "У вас новый заказ на курс {{courseName}}",
+    "new_question_title": "Новый вопрос",
+    "new_question_message": "У вас новый вопрос в курсе {{courseName}}",
+    "new_reply_title": "Новый ответ",
+    "new_reply_message": "На ваш вопрос был дан новый ответ",
+    "new_review_title": "Новый отзыв",
+    "new_review_message": "{{userName}} оставил отзыв о курсе {{courseName}}"
+  }
+}

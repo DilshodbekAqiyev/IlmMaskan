@@ -27,7 +27,7 @@ export const createOrder = CatchAsyncError(
           );
 
           if (paymentIntent.status !== "succeeded") {
-            return next(new ErrorHandler("Payment not authorized!", 400));
+            return next(new ErrorHandler((req as any).t("error.payment_not_authorized"), 400));
           }
         }
       }
@@ -40,14 +40,14 @@ export const createOrder = CatchAsyncError(
 
       if (courseExistInUser) {
         return next(
-          new ErrorHandler("You have already purchased this course", 400)
+          new ErrorHandler((req as any).t("error.already_purchased"), 400)
         );
       }
 
       const course: ICourse | null = await CourseModel.findById(courseId);
 
       if (!course) {
-        return next(new ErrorHandler("Course not found", 404));
+        return next(new ErrorHandler((req as any).t("error.course_not_found"), 404));
       }
 
       const data: any = {
@@ -78,7 +78,7 @@ export const createOrder = CatchAsyncError(
         if (user) {
           await sendMail({
             email: user.email,
-            subject: "Order Confirmation",
+            subject: (req as any).t("email.order_subject"),
             template: "order-confirmation.ejs",
             data: mailData,
           });
@@ -95,8 +95,8 @@ export const createOrder = CatchAsyncError(
 
       await NotificationModel.create({
         user: user?._id,
-        title: "New Order",
-        message: `You have a new order from ${course?.name}`,
+        title: (req as any).t("notifications.new_order_title"),
+        message: (req as any).t("notifications.new_order_message", { courseName: course?.name }),
       });
 
       course.purchased = course.purchased + 1;

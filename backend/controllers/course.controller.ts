@@ -148,7 +148,7 @@ export const getCourseByUser = CatchAsyncError(
 
       if (!courseExists) {
         return next(
-          new ErrorHandler("You are not eligible to access this course", 404)
+          new ErrorHandler((req as any).t("error.already_purchased"), 404)
         );
       }
 
@@ -179,16 +179,14 @@ export const addQuestion = CatchAsyncError(
       const { question, courseId, contentId }: IAddQuestionData = req.body;
       const course = await CourseModel.findById(courseId);
 
-      if (!mongoose.Types.ObjectId.isValid(contentId)) {
-        return next(new ErrorHandler("Invalid content id", 400));
-      }
+        return next(new ErrorHandler((req as any).t("error.invalid_course_id"), 400)); // "Invalid content id" -> I'll use invalid_course_id or similar from translation.json
 
       const couseContent = course?.courseData?.find((item: any) =>
         item._id.equals(contentId)
       );
 
       if (!couseContent) {
-        return next(new ErrorHandler("Invalid content id", 400));
+        return next(new ErrorHandler((req as any).t("error.invalid_course_id"), 400));
       }
 
       // create a new question object
@@ -203,8 +201,8 @@ export const addQuestion = CatchAsyncError(
 
       await NotificationModel.create({
         user: req.user?._id,
-        title: "New Question Received",
-        message: `You have a new question in ${couseContent.title}`,
+        title: (req as any).t("notifications.new_question_title"),
+        message: (req as any).t("notifications.new_question_message", { courseName: couseContent.title }),
       });
 
       // save the updated course
@@ -237,7 +235,7 @@ export const addAnwser = CatchAsyncError(
       const course = await CourseModel.findById(courseId);
 
       if (!mongoose.Types.ObjectId.isValid(contentId)) {
-        return next(new ErrorHandler("Invalid content id", 400));
+        return next(new ErrorHandler((req as any).t("error.invalid_course_id"), 400));
       }
 
       const couseContent = course?.courseData?.find((item: any) =>
@@ -245,7 +243,7 @@ export const addAnwser = CatchAsyncError(
       );
 
       if (!couseContent) {
-        return next(new ErrorHandler("Invalid content id", 400));
+        return next(new ErrorHandler((req as any).t("error.invalid_course_id"), 400));
       }
 
       const question = couseContent?.questions?.find((item: any) =>
@@ -253,7 +251,7 @@ export const addAnwser = CatchAsyncError(
       );
 
       if (!question) {
-        return next(new ErrorHandler("Invalid question id", 400));
+        return next(new ErrorHandler((req as any).t("error.question_not_found"), 400));
       }
 
       // create a new answer object
@@ -273,8 +271,8 @@ export const addAnwser = CatchAsyncError(
         // create a notification
         await NotificationModel.create({
           user: req.user?._id,
-          title: "New Question Reply Received",
-          message: `You have a new question reply in ${couseContent.title}`,
+          title: (req as any).t("notifications.new_reply_title"),
+          message: (req as any).t("notifications.new_reply_message"),
         });
       } else {
         const data = {
@@ -290,7 +288,7 @@ export const addAnwser = CatchAsyncError(
         try {
           await sendMail({
             email: question.user.email,
-            subject: "Question Reply",
+            subject: (req as any).t("email.reply_subject"),
             template: "question-reply.ejs",
             data,
           });
@@ -330,7 +328,7 @@ export const addReview = CatchAsyncError(
 
       if (!courseExists) {
         return next(
-          new ErrorHandler("You are not eligible to access this course", 404)
+          new ErrorHandler((req as any).t("error.already_purchased"), 404)
         );
       }
 
@@ -363,8 +361,8 @@ export const addReview = CatchAsyncError(
       // create notification
       await NotificationModel.create({
         user: req.user?._id,
-        title: "New Review Received",
-        message: `${req.user?.name} has given a review in ${course?.name}`,
+        title: (req as any).t("notifications.new_review_title"),
+        message: (req as any).t("notifications.new_review_message", { userName: req.user?.name, courseName: course?.name }),
       });
 
 
@@ -392,7 +390,7 @@ export const addReplyToReview = CatchAsyncError(
       const course = await CourseModel.findById(courseId);
 
       if (!course) {
-        return next(new ErrorHandler("Course not found", 404));
+        return next(new ErrorHandler((req as any).t("error.course_not_found"), 404));
       }
 
       const review = course?.reviews?.find(
@@ -400,7 +398,7 @@ export const addReplyToReview = CatchAsyncError(
       );
 
       if (!review) {
-        return next(new ErrorHandler("Review not found", 404));
+        return next(new ErrorHandler((req as any).t("error.review_not_found"), 404));
       }
 
       const replyData: any = {
@@ -450,7 +448,7 @@ export const deleteCourse = CatchAsyncError(
       const course = await CourseModel.findById(id);
 
       if (!course) {
-        return next(new ErrorHandler("course not found", 404));
+        return next(new ErrorHandler((req as any).t("error.course_not_found"), 404));
       }
 
       await course.deleteOne({ id });
@@ -459,7 +457,7 @@ export const deleteCourse = CatchAsyncError(
 
       res.status(200).json({
         success: true,
-        message: "course deleted successfully",
+        message: (req as any).t("success.course_deleted"),
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
