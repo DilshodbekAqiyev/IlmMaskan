@@ -47,5 +47,8 @@
     "utf-8-validate": "^6.0.3",
     "ws": "^8.13.0",
     "yup": "^1.2.0"
+  },
+  "overrides": {
+    "eslint-plugin-react-hooks": "4.6.0"
   }
 }
