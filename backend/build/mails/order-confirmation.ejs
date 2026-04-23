@@ -6,7 +6,7 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet" />
-    <title>Order Confirmation</title>
+    <title>Buyurtmani tasdiqlash</title>
     <style>
       body {
         font-family: "Poppins", sans-serif;
@@ -145,24 +145,24 @@
   <body>
     <div class="container">
       <div class="message-sm">
-        <h1>Your IlmMaskan order is confirmed!</h1>
-        <p>And we're just as excited as you are.</p>
+        <h1>Sizning IlmMaskan buyurtmangiz tasdiqlandi!</h1>
+        <p>Biz ham siz kabi hayajondamiz.</p>
       </div>
       <br />
       <br />
       <div class="course-info">
-        <h4>Here's what you ordered:</h4>
+        <h4>Siz sotib olgan kurs:</h4>
         <table style="border-bottom: 1px solid #0000002f">
           <tr>
-            <td>Order #: <%= order._id %></td>
-            <td>Order Date: <%= order.date %></td>
+            <td>Buyurtma #: <%= order._id %></td>
+            <td>Buyurtma sanasi: <%= order.date %></td>
           </tr>
         </table>
         <table style="width: 90%; margin: auto; display: block">
           <tr>
-            <td class="first-td">Item</td>
-            <td class="first-td">Qty</td>
-            <td class="first-td">cost</td>
+            <td class="first-td">Kurs</td>
+            <td class="first-td">Soni</td>
+            <td class="first-td">Narxi</td>
           </tr>
         </table>
 
@@ -176,25 +176,25 @@
 
         <table class="table-row" style="border-top: 1px solid #00000029">
           <tr>
-            <td class="col-2">Subtotal:</td>
+            <td class="col-2">Oraliq jami:</td>
             <td class="col-2">$<%= order.price %></td>
           </tr>
         </table>
         <table class="table-row" style="margin-top: -20px">
           <tr>
-            <td class="col-2">Total:</td>
+            <td class="col-2">Jami:</td>
             <td class="col-2">$<%= order.price %></td>
           </tr>
         </table>
       </div>
       <div class="footer">
         <p>
-          If you have any questions, please contact our support team at
+          Agar savollaringiz bo'lsa, qo'llab-quvvatlash jamoamiz bilan bog'laning:
           <a href="mailto:dilshodjonaqiyev@gmail.com"
             >dilshodjonaqiyev@gmail.com</a
           >
         </p>
-        <p>&copy; 2026 IlmMaskan. All rights reserved.</p>
+        <p>&copy; 2026 IlmMaskan. Barcha huquqlar himoyalangan.</p>
       </div>
     </div>
   </body>

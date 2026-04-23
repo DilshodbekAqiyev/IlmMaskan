@@ -25,9 +25,9 @@ exports.app.use((0, cookie_parser_1.default)());
 // i18next middleware
 exports.app.use(i18n_1.middleware.handle(i18n_1.i18next));
 // cors => cross origin resource sharing
-// origin: process.env.ORIGIN,
+const allowedOrigins = process.env.ORIGIN ? process.env.ORIGIN.split(',') : ["http://localhost:3000", "https://ilm-maskan.vercel.app"];
 exports.app.use((0, cors_1.default)({
-    origin: ["http://localhost:3000", "https://ilm-maskan.vercel.app"],
+    origin: allowedOrigins,
     credentials: true,
 }));
 // app.use(cors({ origin: process.env.ORIGIN, credentials: true, }))

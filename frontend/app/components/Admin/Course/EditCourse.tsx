@@ -35,7 +35,7 @@ const EditCourse:FC<Props> = ({id}) => {
         toast.error(errorMessage.data.message);
       }
     }
-  }, [isSuccess, error]);
+  }, [isSuccess, error, t]);
 
 
   const [active, setActive] = useState(0);

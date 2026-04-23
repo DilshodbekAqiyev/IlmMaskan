@@ -33,7 +33,7 @@ export const LanguageSwitcher = () => {
             className="px-4 py-2 cursor-pointer text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 font-Poppins text-[14px]"
             onClick={() => handleLanguageChange("uz")}
           >
-            O'zbek
+            {"O'zbek"}
           </div>
           <div
             className="px-4 py-2 cursor-pointer text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 font-Poppins text-[14px]"

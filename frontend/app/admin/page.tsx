@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 type Props = {};
 
-const page = (props: Props) => {
+const Page = (props: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -31,4 +31,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default Page;
