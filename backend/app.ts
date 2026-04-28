@@ -25,6 +25,7 @@ app.use(middleware.handle(i18next));
 // cors => cross origin resource sharing
 const allowedOrigins = [
   "http://localhost:3000", 
+  "https://ilm-maskan.uz",
   "https://ilm-maskan.vercel.app"
 ];
 

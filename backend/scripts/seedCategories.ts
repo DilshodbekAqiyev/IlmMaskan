@@ -11,11 +11,21 @@ const categories = [
   { title: "Ma'lumotlar fani" },
   { title: "Kiberxavfsizlik" },
   { title: "Dizayn" },
+  { title: "Tadbirkorlik" },
+  { title: "Soft skills" },
+  { title: "Ingliz tili" },
+  { title: "O'zbek tili" },
+  { title: "Rus tili" },
+  { title: "Sertifikatlar" },
+  { title: "Arxitektura" },
+  { title: "Boshqa" },
 ];
 
 const seedCategories = async () => {
   try {
-    await mongoose.connect(process.env.DB_URL || "");
+    const url = "mongodb+srv://support:MEsWF6djajegiRit@ilmmaskan.etlfqot.mongodb.net/?appName=IlmMaskan"
+    console.log(url);
+    await mongoose.connect(url);
     console.log("Connected to MongoDB");
 
     const existing = await LayoutModel.findOne({ type: "Categories" });
