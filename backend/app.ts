@@ -23,14 +23,26 @@ app.use(cookieParser());
 app.use(middleware.handle(i18next));
 
 // cors => cross origin resource sharing
-const allowedOrigins = process.env.ORIGIN ? process.env.ORIGIN.split(',') : ["http://localhost:3000", "https://ilm-maskan.vercel.app"];
+const allowedOrigins = [
+  "http://localhost:3000", 
+  "https://ilm-maskan.vercel.app"
+];
+
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      // Agar origin bo'lmasa (masalan, Postman'da) yoki ruxsat berilgan bo'lsa
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS siyosati tomonidan bloklandi"));
+      }
+    },
     credentials: true,
-  }),
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+  })
 );
-// app.use(cors({ origin: process.env.ORIGIN, credentials: true, }))
 
 // api requests limit
 const limiter = rateLimit({
