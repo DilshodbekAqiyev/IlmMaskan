@@ -5,6 +5,7 @@ import Heading from "@/app/utils/Heading";
 import CourseContentMedia from "./CourseContentMedia";
 import Header from "../Header";
 import CourseContentList from "./CourseContentList";
+import { redirect } from "next/navigation";
 
 type Props = {
   id: string;
@@ -12,10 +13,14 @@ type Props = {
 };
 
 const CourseContent = ({ id,user }: Props) => {
-  const { data: contentData, isLoading,refetch } = useGetCourseContentQuery(id,{refetchOnMountOrArgChange:true});
+  const { data: contentData, isLoading, error, refetch } = useGetCourseContentQuery(id, { refetchOnMountOrArgChange: true });
   const [open, setOpen] = useState(false);
   const [route, setRoute] = useState('Login')
   const data = contentData?.content;
+
+  if (error) {
+    return redirect("/");
+  }
 
   const [activeVideo, setActiveVideo] = useState(0);
 
