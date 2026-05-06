@@ -49,11 +49,11 @@ const CourseDetails = ({
     }
     if (error) {
       if ("data" in error) {
-        const errorMessage = error as any;
-        toast.error(errorMessage.data.message);
+        const errorData = error as any;
+        toast.error(errorData.data.message);
       }
     }
-  }, [orderData, error]);
+  }, [orderData, error, refetch, t, data._id]);
 
   const dicountPercentenge =
     ((data?.estimatedPrice - data.price) / data?.estimatedPrice) * 100;

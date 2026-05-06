@@ -16,13 +16,12 @@ const CourseContent = ({ id,user }: Props) => {
   const { data: contentData, isLoading, error, refetch } = useGetCourseContentQuery(id, { refetchOnMountOrArgChange: true });
   const [open, setOpen] = useState(false);
   const [route, setRoute] = useState('Login')
+  const [activeVideo, setActiveVideo] = useState(0);
   const data = contentData?.content;
 
   if (error) {
     return redirect("/");
   }
-
-  const [activeVideo, setActiveVideo] = useState(0);
 
   return (
     <>
