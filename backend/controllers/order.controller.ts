@@ -19,35 +19,36 @@ export const createOrder = CatchAsyncError(
     try {
       const { courseId, payment_info } = req.body as IOrder;
 
-      if (payment_info) {
-        if ("id" in payment_info) {
-          const paymentIntentId = payment_info.id;
-          const paymentIntent = await stripe.paymentIntents.retrieve(
-            paymentIntentId
-          );
+      const course: ICourse | null = await CourseModel.findById(courseId);
 
-          if (paymentIntent.status !== "succeeded") {
-            return next(new ErrorHandler((req as any).t("error.payment_not_authorized"), 400));
-          }
+      if (!course) {
+        return next(new ErrorHandler((req as any).t("error.course_not_found"), 404));
+      }
+
+      // Check payment authorization for paid courses
+      if (course.price > 0) {
+        if (!payment_info || !("id" in payment_info)) {
+          return next(new ErrorHandler("Payment info is required for paid courses", 400));
+        }
+        
+        const paymentIntentId = payment_info.id;
+        const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+        if (paymentIntent.status !== "succeeded") {
+          return next(new ErrorHandler((req as any).t("error.payment_not_authorized"), 400));
         }
       }
 
       const user = await userModel.findById(req.user?._id);
 
       const courseExistInUser = user?.courses.some(
-        (course: any) => course._id.toString() === courseId
+        (c: any) => c._id.toString() === courseId || c.courseId === courseId
       );
 
       if (courseExistInUser) {
         return next(
           new ErrorHandler((req as any).t("error.already_purchased"), 400)
         );
-      }
-
-      const course: ICourse | null = await CourseModel.findById(courseId);
-
-      if (!course) {
-        return next(new ErrorHandler((req as any).t("error.course_not_found"), 404));
       }
 
       const data: any = {
@@ -87,7 +88,7 @@ export const createOrder = CatchAsyncError(
         return next(new ErrorHandler(error.message, 500));
       }
 
-      user?.courses.push(course?._id);
+      user?.courses.push({ courseId: course._id.toString() } as any);
 
       await redis.set(req.user?._id, JSON.stringify(user));
 

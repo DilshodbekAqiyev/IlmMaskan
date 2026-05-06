@@ -14,19 +14,10 @@ const Page = ({ params }: Props) => {
   const { isLoading, error, data, refetch } = useLoadUserQuery(undefined, {});
 
   useEffect(() => {
-    if (data) {
-      const isPurchased = data.user.courses.find(
-        (item: any) => item._id === id,
-      );
-      if (!isPurchased) {
-        redirect("/");
-      }
-    }
     if (error) {
       redirect("/");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, error]);
+  }, [error]);
 
   return (
     <>

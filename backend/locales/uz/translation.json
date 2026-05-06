@@ -14,6 +14,7 @@
     "invalid_course_id": "Kurs ID noto'g'ri",
     "course_not_found": "Kurs topilmadi",
     "already_purchased": "Siz bu kursni allaqachon sotib olgansiz",
+    "access_denied": "Sizda ushbu kursga kirish huquqi yo'q",
     "question_not_found": "Savol topilmadi",
     "review_not_found": "Fikr topilmadi",
     "reply_not_found": "Javob topilmadi"

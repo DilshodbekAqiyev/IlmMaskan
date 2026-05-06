@@ -495,7 +495,7 @@ export const deleteUser = CatchAsyncError(
         return next(new ErrorHandler((req as any).t("error.user_not_found"), 404));
       }
 
-      await user.deleteOne({ id });
+      await user.deleteOne();
 
       await redis.del(id);
 

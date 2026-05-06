@@ -47,6 +47,10 @@ export const editCourse = CatchAsyncError(
 
       const courseData = await CourseModel.findById(courseId) as any;
 
+      if (!courseData) {
+        return next(new ErrorHandler("Course not found", 404));
+      }
+
       if (thumbnail && !thumbnail.startsWith("https")) {
         await cloudinary.v2.uploader.destroy(courseData.thumbnail.public_id);
 
@@ -74,7 +78,7 @@ export const editCourse = CatchAsyncError(
         },
         { new: true }
       );
-      await redis.set(courseId, JSON.stringify(course)); // update course in redis
+      await redis.set(courseId, JSON.stringify(course), "EX", 604800); // update course in redis with 7 days expiry
       res.status(201).json({
         success: true,
         course,
@@ -142,17 +146,21 @@ export const getCourseByUser = CatchAsyncError(
       const userCourseList = req.user?.courses;
       const courseId = req.params.id;
 
-      const courseExists = userCourseList?.find(
-        (course: any) => course._id.toString() === courseId
-      );
+      const course = await CourseModel.findById(courseId);
 
-      if (!courseExists) {
-        return next(
-          new ErrorHandler((req as any).t("error.already_purchased"), 404)
-        );
+      if (!course) {
+        return next(new ErrorHandler((req as any).t("error.course_not_found"), 404));
       }
 
-      const course = await CourseModel.findById(courseId);
+      const courseExists = userCourseList?.find(
+        (course: any) => course._id.toString() === courseId || course.courseId === courseId
+      );
+
+      if (!courseExists && course.price > 0) {
+        return next(
+          new ErrorHandler((req as any).t("error.access_denied"), 404)
+        );
+      }
 
       const content = course?.courseData;
 
@@ -324,21 +332,24 @@ export const addReview = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userCourseList = req.user?.courses;
-
       const courseId = req.params.id;
+
+      const course = await CourseModel.findById(courseId);
+
+      if (!course) {
+        return next(new ErrorHandler((req as any).t("error.course_not_found"), 404));
+      }
 
       // check if courseId already exists in userCourseList based on _id
       const courseExists = userCourseList?.some(
-        (course: any) => course._id.toString() === courseId.toString()
+        (c: any) => c._id.toString() === courseId.toString() || c.courseId === courseId
       );
 
-      if (!courseExists) {
+      if (!courseExists && course.price > 0) {
         return next(
-          new ErrorHandler((req as any).t("error.already_purchased"), 404)
+          new ErrorHandler((req as any).t("error.access_denied"), 404)
         );
       }
-
-      const course = await CourseModel.findById(courseId);
 
       const { review, rating } = req.body as IAddReviewData;
 
@@ -457,7 +468,7 @@ export const deleteCourse = CatchAsyncError(
         return next(new ErrorHandler((req as any).t("error.course_not_found"), 404));
       }
 
-      await course.deleteOne({ id });
+      await course.deleteOne();
 
       await redis.del(id);
 

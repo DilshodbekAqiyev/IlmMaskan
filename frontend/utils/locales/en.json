@@ -31,7 +31,9 @@
     "subtitle": "Opportunity With Our Courses",
     "students": "Students",
     "free": "Free",
-    "lectures": "Lectures"
+    "lectures": "Lectures",
+    "enroll_now": "Enroll Now",
+    "buy_now": "Buy Now"
   },
   "reviews": {
     "title1": "Our Students Are ",
@@ -218,5 +220,8 @@
       "success": "Password changed successfully",
       "update_button": "Update"
     }
+  },
+  "success": {
+    "order_created": "Enrolled successfully!"
   }
 }

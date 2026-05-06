@@ -31,7 +31,9 @@
     "subtitle": "Bizning kurslarimiz orqali imkoniyat",
     "students": "O'quvchilar",
     "free": "Bepul",
-    "lectures": "Darslar"
+    "lectures": "Darslar",
+    "enroll_now": "Hoziroq a'zo bo'ling",
+    "buy_now": "Sotib olish"
   },
   "reviews": {
     "title1": "O'quvchilarimiz bizning",
@@ -218,5 +220,8 @@
       "success": "Parol muvaffaqiyatli o'zgartirildi",
       "update_button": "Yangilash"
     }
+  },
+  "success": {
+    "order_created": "Muvaffaqiyatli ro'yxatdan o'tdingiz!"
   }
 }

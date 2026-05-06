@@ -17,7 +17,7 @@ type Props = {
   isTeam?: boolean;
 };
 
-const AllCourses: FC<Props> = ({ isTeam }) => {
+const AllUsers: FC<Props> = ({ isTeam }) => {
   const { theme, setTheme } = useTheme();
   const [active, setActive] = useState(false);
   const [email, setEmail] = useState("");
@@ -284,4 +284,4 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
   );
 };
 
-export default AllCourses;
+export default AllUsers;

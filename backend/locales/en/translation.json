@@ -14,6 +14,7 @@
     "invalid_course_id": "Invalid course ID",
     "course_not_found": "Course not found",
     "already_purchased": "You have already purchased this course",
+    "access_denied": "You do not have access to this course",
     "question_not_found": "Question not found",
     "review_not_found": "Review not found",
     "reply_not_found": "Reply not found"

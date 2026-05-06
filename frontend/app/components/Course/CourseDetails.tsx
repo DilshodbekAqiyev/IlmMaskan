@@ -11,6 +11,10 @@ import CheckOutForm from "../Payment/CheckOutForm";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Image from "next/image";
 import { VscVerifiedFilled } from "react-icons/vsc";
+import { useCreateOrderMutation } from "@/redux/features/orders/ordersApi";
+import { toast } from "react-hot-toast";
+import { redirect } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   data: any;
@@ -27,13 +31,29 @@ const CourseDetails = ({
   setRoute,
   setOpen: openAuthModal,
 }: Props) => {
-  const { data: userData,refetch } = useLoadUserQuery(undefined, {});
+  const { t } = useTranslation();
+  const { data: userData, refetch } = useLoadUserQuery(undefined, {});
   const [user, setUser] = useState<any>();
   const [open, setOpen] = useState(false);
+  const [createOrder, { data: orderData, error }] = useCreateOrderMutation();
 
   useEffect(() => {
     setUser(userData?.user);
   }, [userData]);
+
+  useEffect(() => {
+    if (orderData) {
+      refetch();
+      toast.success(t("success.order_created"));
+      redirect(`/course-access/${data._id}`);
+    }
+    if (error) {
+      if ("data" in error) {
+        const errorMessage = error as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+  }, [orderData, error]);
 
   const dicountPercentenge =
     ((data?.estimatedPrice - data.price) / data?.estimatedPrice) * 100;
@@ -41,11 +61,15 @@ const CourseDetails = ({
   const discountPercentengePrice = dicountPercentenge.toFixed(0);
 
   const isPurchased =
-    user && user?.courses?.find((item: any) => item._id === data._id);
+    user && user?.courses?.find((item: any) => item._id === data._id || item.courseId === data._id);
 
   const handleOrder = (e: any) => {
     if (user) {
-      setOpen(true);
+      if (data.price === 0) {
+        createOrder({ courseId: data._id, payment_info: null });
+      } else {
+        setOpen(true);
+      }
     } else {
       setRoute("Login");
       openAuthModal(true);
@@ -241,7 +265,7 @@ const CourseDetails = ({
                     className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}
                     onClick={handleOrder}
                   >
-                    Buy Now {data.price}$
+                    {data.price === 0 ? t("courses.enroll_now") : `${t("courses.buy_now")} ${data.price}$`}
                   </div>
                 )}
               </div>
