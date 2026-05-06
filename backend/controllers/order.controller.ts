@@ -70,22 +70,16 @@ export const createOrder = CatchAsyncError(
         },
       };
 
-      const html = await ejs.renderFile(
-        path.join(__dirname, "../mails/order-confirmation.ejs"),
-        { order: mailData }
-      );
-
-      try {
-        if (user) {
-          await sendMail({
-            email: user.email,
-            subject: (req as any).t("email.order_subject"),
-            template: "order-confirmation.ejs",
-            data: mailData,
-          });
-        }
-      } catch (error: any) {
-        return next(new ErrorHandler(error.message, 500));
+      // Send mail in background
+      if (user) {
+        sendMail({
+          email: user.email,
+          subject: (req as any).t("email.order_subject"),
+          template: "order-confirmation.ejs",
+          data: mailData,
+        }).catch((err: any) => {
+          console.error("Order confirmation email failed:", err.message);
+        });
       }
 
       user?.courses.push({ courseId: course._id.toString() } as any);
