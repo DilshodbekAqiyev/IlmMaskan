@@ -70,7 +70,7 @@ const Signup: FC<Props> = ({ setRoute }) => {
           </label>
           <input
             type="text"
-            name=""
+            name="name"
             value={values.name}
             onChange={handleChange}
             id="name"
@@ -88,7 +88,7 @@ const Signup: FC<Props> = ({ setRoute }) => {
         </label>
         <input
           type="email"
-          name=""
+          name="email"
           value={values.email}
           onChange={handleChange}
           id="email"
