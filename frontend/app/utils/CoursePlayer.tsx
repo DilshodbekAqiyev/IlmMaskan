@@ -14,10 +14,11 @@ const CoursePlayer: FC<Props> = ({ videoUrl }) => {
 
   useEffect(() => {
     axios
-      .post(`${process.env.NEXT_PUBLIC_SERVER_URI}getVdoCipherOTP`, {
+      .post(`${process.env.NEXT_PUBLIC_SERVER_URI}/getVdoCipherOTP`, {
         videoId: videoUrl,
       })
       .then((res) => {
+        console.log("vdoCipher response:", res);
         setVideoData(res.data);
       });
   }, [videoUrl]);
