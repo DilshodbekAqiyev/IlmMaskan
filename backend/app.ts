@@ -16,14 +16,27 @@ import dns from 'dns'
 
 dns.setServers(['8.8.8.8','1.1.1.1']);
 
+app.set("trust proxy", 1);
+
 // cors => cross origin resource sharing
 const allowedOrigins = process.env.ORIGIN
-  ? process.env.ORIGIN.split(",").map((o) => o.trim())
+  ? process.env.ORIGIN.split(",").map((o) => o.trim().replace(/\/$/, ""))
   : ["http://localhost:3000", "https://ilm-maskan.vercel.app"];
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      
+      const normalizedOrigin = origin.replace(/\/$/, "");
+      if (allowedOrigins.indexOf(normalizedOrigin) !== -1) {
+        callback(null, true);
+      } else {
+        console.log("CORS blocked for origin:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
