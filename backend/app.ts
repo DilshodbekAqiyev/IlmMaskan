@@ -16,6 +16,26 @@ import dns from 'dns'
 
 dns.setServers(['8.8.8.8','1.1.1.1']);
 
+// cors => cross origin resource sharing
+const allowedOrigins = process.env.ORIGIN
+  ? process.env.ORIGIN.split(",").map((o) => o.trim())
+  : ["http://localhost:3000", "https://ilm-maskan.vercel.app"];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+      "Origin",
+    ],
+  })
+);
+
 // body parser
 app.use(express.json({ limit: "50mb" }));
 
@@ -24,27 +44,6 @@ app.use(cookieParser());
 
 // i18next middleware
 app.use(middleware.handle(i18next));
-
-// cors => cross origin resource sharing
-const allowedOrigins = process.env.ORIGIN 
-  ? process.env.ORIGIN.split(',').map(o => o.trim()) 
-  : ["http://localhost:3000", "https://ilm-maskan.vercel.app"];
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Agar origin bo'lmasa (masalan, Postman'da) yoki ruxsat berilgan bo'lsa
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("CORS siyosati tomonidan bloklandi"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-  })
-);
 
 // api requests limit
 const limiter = rateLimit({
