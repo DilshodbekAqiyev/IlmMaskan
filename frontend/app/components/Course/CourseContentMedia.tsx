@@ -22,6 +22,8 @@ import { VscVerifiedFilled } from "react-icons/vsc";
 import Ratings from "@/app/utils/Ratings";
 import socketIO from "socket.io-client";
 import confetti from "canvas-confetti";
+import CustomModal from "@/app/utils/CustomModal";
+import CourseCompletionModal from "./CourseCompletionModal";
 const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || "";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
@@ -51,6 +53,7 @@ const CourseContentMedia = ({
   const [reply, setReply] = useState("");
   const [reviewId, setReviewId] = useState("");
   const [isReviewReply, setIsReviewReply] = useState(false);
+  const [openCompletionModal, setOpenCompletionModal] = useState(false);
 
   const [
     addNewQuestion,
@@ -132,7 +135,7 @@ const CourseContentMedia = ({
     }
     if (answerError) {
       if ("data" in answerError) {
-        const errorMessage = error as any;
+        const errorMessage = answerError as any;
         toast.error(errorMessage.data.message);
       }
     }
@@ -148,7 +151,7 @@ const CourseContentMedia = ({
     }
     if (reviewError) {
       if ("data" in reviewError) {
-        const errorMessage = error as any;
+        const errorMessage = reviewError as any;
         toast.error(errorMessage.data.message);
       }
     }
@@ -158,7 +161,7 @@ const CourseContentMedia = ({
     }
     if (replyError) {
       if ("data" in replyError) {
-        const errorMessage = error as any;
+        const errorMessage = replyError as any;
         toast.error(errorMessage.data.message);
       }
     }
@@ -208,6 +211,7 @@ const CourseContentMedia = ({
       origin: { y: 0.6 },
       colors: ["#37a39a", "#2190ff", "#e03e2d", "#f7ba00"],
     });
+    setOpenCompletionModal(true);
     toast.success("Tabriklaymiz! Siz kursni muvaffaqiyatli yakunladingiz!");
   };
 
@@ -509,6 +513,15 @@ const CourseContentMedia = ({
             </div>
           </>
         </div>
+      )}
+      {openCompletionModal && (
+        <CustomModal
+          open={openCompletionModal}
+          setOpen={setOpenCompletionModal}
+          activeItem={0}
+          component={CourseCompletionModal}
+          courseName={course?.name}
+        />
       )}
     </div>
   );

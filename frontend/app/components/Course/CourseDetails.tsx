@@ -37,9 +37,15 @@ const CourseDetails = ({
   const [open, setOpen] = useState(false);
   const [createOrder, { data: orderData, error }] = useCreateOrderMutation();
 
+  const [activeVideoUrl, setActiveVideoUrl] = useState(data?.demoUrl);
+
   useEffect(() => {
     setUser(userData?.user);
   }, [userData]);
+
+  useEffect(() => {
+    setActiveVideoUrl(data?.demoUrl);
+  }, [data]);
 
   useEffect(() => {
     if (orderData) {
@@ -140,7 +146,13 @@ const CourseDetails = ({
               <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
                 Course Overview
               </h1>
-              <CourseContentList data={data?.courseData} isDemo={true} />
+              <CourseContentList
+                data={data?.courseData}
+                isDemo={true}
+                setActiveVideo={(index: number) =>
+                  setActiveVideoUrl(data?.courseData[index]?.videoUrl)
+                }
+              />
             </div>
             <br />
             <br />
@@ -239,7 +251,7 @@ const CourseDetails = ({
           </div>
           <div className="w-full 800px:w-[35%] relative">
             <div className="sticky top-[100px] left-0 z-50 w-full">
-              <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
+              <CoursePlayer videoUrl={activeVideoUrl} title={data?.title} />
               <div className="flex items-center">
                 <h1 className="pt-5 text-[25px] text-black dark:text-white">
                   {data.price === 0 ? "Free" : data.price + "$"}

@@ -222,6 +222,14 @@
     }
   },
   "success": {
-    "order_created": "Muvaffaqiyatli ro'yxatdan o'tdingiz!"
+    "order_created": "Muvaffaqiyatli ro'yxatdan o'tdingiz!",
+    "course_completed": "Tabriklaymiz! Siz kursni muvaffaqiyatli yakunladingiz!"
+  },
+  "completion": {
+    "title": "Tabriklaymiz!",
+    "subtitle": "Siz {{courseName}} kursini muvaffaqiyatli yakunladingiz.",
+    "description": "Sizning barcha sa'y-harakatlaringiz o'z mevasini berdi. Yangi bilimlaringiz hayotingizda asqotishiga ishonamiz!",
+    "get_certificate": "Sertifikatni yuklab olish",
+    "back_to_courses": "Kurslarga qaytish"
   }
 }

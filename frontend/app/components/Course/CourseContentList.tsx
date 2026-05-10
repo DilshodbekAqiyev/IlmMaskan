@@ -90,7 +90,7 @@ const CourseContentList: FC<Props> = (props) => {
                         videoIndex === props.activeVideo ? "bg-slate-800" : ""
                       } cursor-pointer transition-all p-2`}
                       key={item._id}
-                      onClick={() => props.isDemo ? null : props?.setActiveVideo(videoIndex)}
+                      onClick={() => props?.setActiveVideo ? props.setActiveVideo(videoIndex) : null}
                     >
                       <div className="flex items-start">
                         <div>
