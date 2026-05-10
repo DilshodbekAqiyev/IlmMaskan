@@ -12,6 +12,9 @@ import analyticsRouter from "./routes/analytics.route";
 import layoutRouter from "./routes/layout.route";
 import { rateLimit } from "express-rate-limit";
 import { i18next, middleware } from "./utils/i18n";
+import dns from 'dns'
+
+dns.setServers(['8.8.8.8','1.1.1.1']);
 
 // body parser
 app.use(express.json({ limit: "50mb" }));
@@ -23,11 +26,9 @@ app.use(cookieParser());
 app.use(middleware.handle(i18next));
 
 // cors => cross origin resource sharing
-const allowedOrigins = [
-  "http://localhost:3000", 
-  "https://ilm-maskan.uz",
-  "https://ilm-maskan.vercel.app"
-];
+const allowedOrigins = process.env.ORIGIN 
+  ? process.env.ORIGIN.split(',').map(o => o.trim()) 
+  : ["http://localhost:3000", "https://ilm-maskan.vercel.app"];
 
 app.use(
   cors({

@@ -131,6 +131,7 @@ export const activateUser = CatchAsyncError(
         name,
         email,
         password,
+        isVerified: true,
       });
 
       res.status(201).json({
@@ -275,7 +276,7 @@ export const socialAuth = CatchAsyncError(
       const { email, name, avatar } = req.body as ISocialAuthBody;
       const user = await userModel.findOne({ email });
       if (!user) {
-        const newUser = await userModel.create({ email, name, avatar });
+        const newUser = await userModel.create({ email, name, avatar, isVerified: true });
         sendToken(newUser, 200, res);
       } else {
         sendToken(user, 200, res);

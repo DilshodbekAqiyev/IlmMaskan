@@ -487,6 +487,9 @@ export const generateVideoUrl = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { videoId } = req.body;
+      if (!videoId) {
+        return next(new ErrorHandler("Video ID is required", 400));
+      }
       const response = await axios.post(
         `https://dev.vdocipher.com/api/videos/${videoId}/otp`,
         { ttl: 300 },
@@ -500,7 +503,7 @@ export const generateVideoUrl = CatchAsyncError(
       );
       res.json(response.data);
     } catch (error: any) {
-      return next(new ErrorHandler(error.message, 400));
+      return next(new ErrorHandler(error.response?.data?.message || error.message, 400));
     }
   }
 );

@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
+const dns = require("dns");
+
+dns.setServers(['8.8.8.8','1.1.1.1'])
 
 const layoutSchema = new mongoose.Schema({
     type: { type: String },
@@ -20,13 +23,14 @@ const categories = [
     { title: "Sun'iy intellekt" },
     { title: "Ma'lumotlar fani" },
     { title: "Kiberxavfsizlik" },
+    {title: "Ingliz tili" },
     { title: "Dizayn" },
 ];
 
 async function seed() {
     try {
-        console.log("Connecting to:", process.env.DB_URL);
-        await mongoose.connect(process.env.DB_URL);
+        console.log("Connecting to:", "mongodb+srv://dilshodjonaqiyev:KkpvmebSH5vtI30c@ilmmaskan.cwnl7sq.mongodb.net/");
+        await mongoose.connect("mongodb+srv://dilshodjonaqiyev:KkpvmebSH5vtI30c@ilmmaskan.cwnl7sq.mongodb.net/");
         console.log("Connected!");
 
         const existing = await Layout.findOne({ type: "Categories" });

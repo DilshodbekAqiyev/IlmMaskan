@@ -2,6 +2,7 @@ import Image from "next/image";
 import { styles } from "../../../app/styles/style";
 import React, { FC, useEffect, useState } from "react";
 import { AiOutlineCamera } from "react-icons/ai";
+import { MdVerified } from "react-icons/md";
 import avatarIcon from "../../../public/assests/avatar.png";
 import {
   useEditProfileMutation,
@@ -83,6 +84,11 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
               <AiOutlineCamera size={20} className="z-1" />
             </div>
           </label>
+          {user?.isVerified && (
+            <div className="w-[30px] h-[30px] absolute bottom-2 left-2 flex items-center justify-center">
+              <MdVerified size={25} className="text-[#00c2ff] bg-white rounded-full" />
+            </div>
+          )}
         </div>
       </div>
       <br />

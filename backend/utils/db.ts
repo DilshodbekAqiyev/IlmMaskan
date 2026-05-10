@@ -8,7 +8,9 @@ const connectDB = async () => {
         if (!dbUrl) {
             throw new Error('MongoDB connection string (DB_URL) is missing in .env');
         }
-        await mongoose.connect(dbUrl).then((data:any) => {
+        await mongoose.connect(dbUrl, {
+            serverSelectionTimeoutMS: 5000,
+        }).then((data:any) => {
             console.log(`Database connected with ${data.connection.host}`)
         })
     } catch (error:any) {

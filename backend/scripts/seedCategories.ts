@@ -23,7 +23,7 @@ const categories = [
 
 const seedCategories = async () => {
   try {
-    const url = "mongodb+srv://support:MEsWF6djajegiRit@ilmmaskan.etlfqot.mongodb.net/?appName=IlmMaskan"
+    const url = process.env.DB_URL || "";
     console.log(url);
     await mongoose.connect(url);
     console.log("Connected to MongoDB");

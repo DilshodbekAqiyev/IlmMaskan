@@ -43,6 +43,9 @@ exports.editCourse = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
         const thumbnail = data.thumbnail;
         const courseId = req.params.id;
         const courseData = await course_model_1.default.findById(courseId);
+        if (!courseData) {
+            return next(new ErrorHandler_1.default("Course not found", 404));
+        }
         if (thumbnail && !thumbnail.startsWith("https")) {
             await cloudinary_1.default.v2.uploader.destroy(courseData.thumbnail.public_id);
             const myCloud = await cloudinary_1.default.v2.uploader.upload(thumbnail, {
@@ -62,7 +65,7 @@ exports.editCourse = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
         const course = await course_model_1.default.findByIdAndUpdate(courseId, {
             $set: data,
         }, { new: true });
-        await redis_1.redis.set(courseId, JSON.stringify(course)); // update course in redis
+        await redis_1.redis.set(courseId, JSON.stringify(course), "EX", 604800); // update course in redis with 7 days expiry
         res.status(201).json({
             success: true,
             course,
@@ -115,11 +118,14 @@ exports.getCourseByUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, re
     try {
         const userCourseList = req.user?.courses;
         const courseId = req.params.id;
-        const courseExists = userCourseList?.find((course) => course._id.toString() === courseId);
-        if (!courseExists) {
-            return next(new ErrorHandler_1.default(req.t("error.already_purchased"), 404));
-        }
         const course = await course_model_1.default.findById(courseId);
+        if (!course) {
+            return next(new ErrorHandler_1.default(req.t("error.course_not_found"), 404));
+        }
+        const courseExists = userCourseList?.find((course) => course._id.toString() === courseId || course.courseId === courseId);
+        if (!courseExists && course.price > 0) {
+            return next(new ErrorHandler_1.default(req.t("error.access_denied"), 404));
+        }
         const content = course?.courseData;
         res.status(200).json({
             success: true,
@@ -232,12 +238,15 @@ exports.addReview = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, nex
     try {
         const userCourseList = req.user?.courses;
         const courseId = req.params.id;
-        // check if courseId already exists in userCourseList based on _id
-        const courseExists = userCourseList?.some((course) => course._id.toString() === courseId.toString());
-        if (!courseExists) {
-            return next(new ErrorHandler_1.default(req.t("error.already_purchased"), 404));
-        }
         const course = await course_model_1.default.findById(courseId);
+        if (!course) {
+            return next(new ErrorHandler_1.default(req.t("error.course_not_found"), 404));
+        }
+        // check if courseId already exists in userCourseList based on _id
+        const courseExists = userCourseList?.some((c) => c._id.toString() === courseId.toString() || c.courseId === courseId);
+        if (!courseExists && course.price > 0) {
+            return next(new ErrorHandler_1.default(req.t("error.access_denied"), 404));
+        }
         const { review, rating } = req.body;
         const reviewData = {
             user: req.user,
@@ -318,7 +327,7 @@ exports.deleteCourse = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, 
         if (!course) {
             return next(new ErrorHandler_1.default(req.t("error.course_not_found"), 404));
         }
-        await course.deleteOne({ id });
+        await course.deleteOne();
         await redis_1.redis.del(id);
         res.status(200).json({
             success: true,
@@ -333,6 +342,9 @@ exports.deleteCourse = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, 
 exports.generateVideoUrl = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, next) => {
     try {
         const { videoId } = req.body;
+        if (!videoId) {
+            return next(new ErrorHandler_1.default("Video ID is required", 400));
+        }
         const response = await axios_1.default.post(`https://dev.vdocipher.com/api/videos/${videoId}/otp`, { ttl: 300 }, {
             headers: {
                 Accept: "application/json",
@@ -343,6 +355,6 @@ exports.generateVideoUrl = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, r
         res.json(response.data);
     }
     catch (error) {
-        return next(new ErrorHandler_1.default(error.message, 400));
+        return next(new ErrorHandler_1.default(error.response?.data?.message || error.message, 400));
     }
 });

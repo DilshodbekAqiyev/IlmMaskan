@@ -21,6 +21,7 @@ import { BiMessage } from "react-icons/bi";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import Ratings from "@/app/utils/Ratings";
 import socketIO from "socket.io-client";
+import confetti from "canvas-confetti";
 const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || "";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
@@ -200,6 +201,16 @@ const CourseContentMedia = ({
     }
   };
 
+  const handleFinish = () => {
+    confetti({
+      particleCount: 200,
+      spread: 100,
+      origin: { y: 0.6 },
+      colors: ["#37a39a", "#2190ff", "#e03e2d", "#f7ba00"],
+    });
+    toast.success("Tabriklaymiz! Siz kursni muvaffaqiyatli yakunladingiz!");
+  };
+
   return (
     <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
       <CoursePlayer
@@ -219,22 +230,22 @@ const CourseContentMedia = ({
           <AiOutlineArrowLeft className="mr-2" />
           Prev Lesson
         </div>
-        <div
-          className={`${
-            styles.button
-          } !w-[unset] text-white  !min-h-[40px] !py-[unset] ${
-            data.length - 1 === activeVideo && "!cursor-no-drop opacity-[.8]"
-          }`}
-          onClick={() =>
-            setActiveVideo(
-              data && data.length - 1 === activeVideo
-                ? activeVideo
-                : activeVideo + 1,
-            )
-          }>
-          Next Lesson
-          <AiOutlineArrowRight className="ml-2" />
-        </div>
+        {data.length - 1 === activeVideo ? (
+          <div
+            className={`${styles.button} !w-[unset] text-white !min-h-[40px] !py-[unset] !bg-[#37a39a]`}
+            onClick={handleFinish}>
+            Finish Course
+          </div>
+        ) : (
+          <div
+            className={`${styles.button} !w-[unset] text-white !min-h-[40px] !py-[unset]`}
+            onClick={() =>
+              setActiveVideo(activeVideo + 1)
+            }>
+            Next Lesson
+            <AiOutlineArrowRight className="ml-2" />
+          </div>
+        )}
       </div>
       <h1 className="pt-2 text-[25px] font-[600] dark:text-white text-black ">
         {data[activeVideo].title}

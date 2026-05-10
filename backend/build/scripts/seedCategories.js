@@ -14,10 +14,20 @@ const categories = [
     { title: "Ma'lumotlar fani" },
     { title: "Kiberxavfsizlik" },
     { title: "Dizayn" },
+    { title: "Tadbirkorlik" },
+    { title: "Soft skills" },
+    { title: "Ingliz tili" },
+    { title: "O'zbek tili" },
+    { title: "Rus tili" },
+    { title: "Sertifikatlar" },
+    { title: "Arxitektura" },
+    { title: "Boshqa" },
 ];
 const seedCategories = async () => {
     try {
-        await mongoose_1.default.connect(process.env.DB_URL || "");
+        const url = process.env.DB_URL || "";
+        console.log(url);
+        await mongoose_1.default.connect(url);
         console.log("Connected to MongoDB");
         const existing = await layout_model_1.default.findOne({ type: "Categories" });
         if (existing) {

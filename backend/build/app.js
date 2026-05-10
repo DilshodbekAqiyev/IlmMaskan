@@ -18,6 +18,8 @@ const analytics_route_1 = __importDefault(require("./routes/analytics.route"));
 const layout_route_1 = __importDefault(require("./routes/layout.route"));
 const express_rate_limit_1 = require("express-rate-limit");
 const i18n_1 = require("./utils/i18n");
+const dns_1 = __importDefault(require("dns"));
+dns_1.default.setServers(['8.8.8.8', '1.1.1.1']);
 // body parser
 exports.app.use(express_1.default.json({ limit: "50mb" }));
 // cookie parser
@@ -25,12 +27,23 @@ exports.app.use((0, cookie_parser_1.default)());
 // i18next middleware
 exports.app.use(i18n_1.middleware.handle(i18n_1.i18next));
 // cors => cross origin resource sharing
-const allowedOrigins = process.env.ORIGIN ? process.env.ORIGIN.split(',') : ["http://localhost:3000", "https://ilm-maskan.vercel.app"];
+const allowedOrigins = process.env.ORIGIN
+    ? process.env.ORIGIN.split(',').map(o => o.trim())
+    : ["http://localhost:3000", "https://ilm-maskan.vercel.app"];
 exports.app.use((0, cors_1.default)({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+        // Agar origin bo'lmasa (masalan, Postman'da) yoki ruxsat berilgan bo'lsa
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error("CORS siyosati tomonidan bloklandi"));
+        }
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
-// app.use(cors({ origin: process.env.ORIGIN, credentials: true, }))
 // api requests limit
 const limiter = (0, express_rate_limit_1.rateLimit)({
     windowMs: 15 * 60 * 1000,
@@ -44,6 +57,8 @@ const limiter = (0, express_rate_limit_1.rateLimit)({
         });
     },
 });
+// limiter
+exports.app.use(limiter);
 // routes
 exports.app.use("/api/v1", user_route_1.default, order_route_1.default, course_route_1.default, notification_route_1.default, analytics_route_1.default, layout_route_1.default);
 // testing api
@@ -65,13 +80,4 @@ exports.app.all("*", (req, res, next) => {
     next(err);
 });
 // middleware calls
-exports.app.use(limiter);
 exports.app.use(error_1.ErrorMiddleware);
-// Add error handling middleware for express
-exports.app.use((err, req, res, next) => {
-    console.error("Express error:", err);
-    res.status(err.status || 500).json({
-        success: false,
-        message: err.message || "Internal server error",
-    });
-});

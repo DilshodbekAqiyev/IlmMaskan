@@ -9,8 +9,6 @@ const user_model_1 = __importDefault(require("../models/user.model"));
 const ErrorHandler_1 = __importDefault(require("../utils/ErrorHandler"));
 const catchAsyncErrors_1 = require("../middleware/catchAsyncErrors");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const ejs_1 = __importDefault(require("ejs"));
-const path_1 = __importDefault(require("path"));
 const sendMail_1 = __importDefault(require("../utils/sendMail"));
 const jwt_1 = require("../utils/jwt");
 const redis_1 = require("../utils/redis");
@@ -24,35 +22,6 @@ exports.registrationUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, r
         if (!emailRegex.test(email)) {
             return next(new ErrorHandler_1.default(req.t("error.invalid_email"), 400));
         }
-        // Block temporary/disposable email domains
-        const blockedDomains = [
-            "mailinator.com",
-            "guerrillamail.com",
-            "10minutemail.com",
-            "temp-mail.org",
-            "tempmail.com",
-            "throwawaymail.com",
-            "maildrop.cc",
-            "yopmail.com",
-            "fakemailgenerator.com",
-            "burnermail.io",
-            "spamgourmet.com",
-            "getnada.com",
-            "sharklasers.com",
-            "spam4.me",
-            "dispostable.com",
-            "tempinbox.com",
-            "mohmal.com",
-            "tempmail.net",
-            "tempmailaddress.com",
-            "mytemp.email"
-        ];
-        const emailDomain = email.split('@')[1].toLowerCase();
-        // Check if domain or part of domain matches blocked list
-        const isDomainBlocked = blockedDomains.some(blocked => emailDomain === blocked || emailDomain.includes(blocked.replace('.com', '')));
-        if (isDomainBlocked) {
-            return next(new ErrorHandler_1.default(req.t("error.temp_email"), 400));
-        }
         const isEmailExist = await user_model_1.default.findOne({ email });
         if (isEmailExist) {
             return next(new ErrorHandler_1.default(req.t("error.email_exists"), 400));
@@ -65,7 +34,6 @@ exports.registrationUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, r
         const activationToken = (0, exports.createActivationToken)(user);
         const activationCode = activationToken.activationCode;
         const data = { user: { name: user.name }, activationCode };
-        const html = await ejs_1.default.renderFile(path_1.default.join(__dirname, "../mails/activation-mail.ejs"), data);
         try {
             await (0, sendMail_1.default)({
                 email: user.email,
@@ -80,10 +48,12 @@ exports.registrationUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, r
             });
         }
         catch (error) {
+            console.error("Registration error (sendMail):", error);
             return next(new ErrorHandler_1.default(error.message, 400));
         }
     }
     catch (error) {
+        console.error("Registration error (main):", error);
         return next(new ErrorHandler_1.default(error.message, 400));
     }
 });
@@ -114,6 +84,7 @@ exports.activateUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, 
             name,
             email,
             password,
+            isVerified: true,
         });
         res.status(201).json({
             success: true,
@@ -131,15 +102,18 @@ exports.loginUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, nex
         }
         const user = await user_model_1.default.findOne({ email }).select("+password");
         if (!user) {
+            console.log(`Login failed: User with email ${email} not found`);
             return next(new ErrorHandler_1.default(req.t("error.invalid_email_password"), 400));
         }
         const isPasswordMatch = await user.comparePassword(password);
         if (!isPasswordMatch) {
+            console.log(`Login failed: Password mismatch for email ${email}`);
             return next(new ErrorHandler_1.default(req.t("error.invalid_email_password"), 400));
         }
         (0, jwt_1.sendToken)(user, 200, res);
     }
     catch (error) {
+        console.error("Login error:", error);
         return next(new ErrorHandler_1.default(error.message, 400));
     }
 });
@@ -205,7 +179,7 @@ exports.socialAuth = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
         const { email, name, avatar } = req.body;
         const user = await user_model_1.default.findOne({ email });
         if (!user) {
-            const newUser = await user_model_1.default.create({ email, name, avatar });
+            const newUser = await user_model_1.default.create({ email, name, avatar, isVerified: true });
             (0, jwt_1.sendToken)(newUser, 200, res);
         }
         else {
@@ -340,7 +314,7 @@ exports.deleteUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
         if (!user) {
             return next(new ErrorHandler_1.default(req.t("error.user_not_found"), 404));
         }
-        await user.deleteOne({ id });
+        await user.deleteOne();
         await redis_1.redis.del(id);
         res.status(200).json({
             success: true,

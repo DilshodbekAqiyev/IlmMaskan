@@ -8,12 +8,18 @@ require('dotenv').config();
 const dbUrl = process.env.DB_URL || '';
 const connectDB = async () => {
     try {
-        await mongoose_1.default.connect(dbUrl).then((data) => {
+        if (!dbUrl) {
+            throw new Error('MongoDB connection string (DB_URL) is missing in .env');
+        }
+        await mongoose_1.default.connect(dbUrl, {
+            serverSelectionTimeoutMS: 5000,
+        }).then((data) => {
             console.log(`Database connected with ${data.connection.host}`);
         });
     }
     catch (error) {
-        console.log(error.message);
+        console.error(`Database connection error: ${error.message}`);
+        console.log('Retrying database connection in 5 seconds...');
         setTimeout(connectDB, 5000);
     }
 };

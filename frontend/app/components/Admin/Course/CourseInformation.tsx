@@ -246,6 +246,8 @@ const CourseInformation: FC<Props> = ({
               <Image
                 src={courseInfo.thumbnail}
                 alt=""
+                width={500}
+                height={500}
                 className="max-h-full w-full object-cover"
               />
             ) : (

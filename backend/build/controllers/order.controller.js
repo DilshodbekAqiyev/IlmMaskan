@@ -8,8 +8,6 @@ const catchAsyncErrors_1 = require("../middleware/catchAsyncErrors");
 const ErrorHandler_1 = __importDefault(require("../utils/ErrorHandler"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const course_model_1 = __importDefault(require("../models/course.model"));
-const path_1 = __importDefault(require("path"));
-const ejs_1 = __importDefault(require("ejs"));
 const sendMail_1 = __importDefault(require("../utils/sendMail"));
 const notification_Model_1 = __importDefault(require("../models/notification.Model"));
 const order_service_1 = require("../services/order.service");
@@ -20,23 +18,25 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 exports.createOrder = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, next) => {
     try {
         const { courseId, payment_info } = req.body;
-        if (payment_info) {
-            if ("id" in payment_info) {
-                const paymentIntentId = payment_info.id;
-                const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-                if (paymentIntent.status !== "succeeded") {
-                    return next(new ErrorHandler_1.default(req.t("error.payment_not_authorized"), 400));
-                }
-            }
-        }
-        const user = await user_model_1.default.findById(req.user?._id);
-        const courseExistInUser = user?.courses.some((course) => course._id.toString() === courseId);
-        if (courseExistInUser) {
-            return next(new ErrorHandler_1.default(req.t("error.already_purchased"), 400));
-        }
         const course = await course_model_1.default.findById(courseId);
         if (!course) {
             return next(new ErrorHandler_1.default(req.t("error.course_not_found"), 404));
+        }
+        // Check payment authorization for paid courses
+        if (course.price > 0) {
+            if (!payment_info || !("id" in payment_info)) {
+                return next(new ErrorHandler_1.default("Payment info is required for paid courses", 400));
+            }
+            const paymentIntentId = payment_info.id;
+            const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+            if (paymentIntent.status !== "succeeded") {
+                return next(new ErrorHandler_1.default(req.t("error.payment_not_authorized"), 400));
+            }
+        }
+        const user = await user_model_1.default.findById(req.user?._id);
+        const courseExistInUser = user?.courses.some((c) => c._id.toString() === courseId || c.courseId === courseId);
+        if (courseExistInUser) {
+            return next(new ErrorHandler_1.default(req.t("error.already_purchased"), 400));
         }
         const data = {
             courseId: course._id,
@@ -55,21 +55,18 @@ exports.createOrder = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, n
                 }),
             },
         };
-        const html = await ejs_1.default.renderFile(path_1.default.join(__dirname, "../mails/order-confirmation.ejs"), { order: mailData });
-        try {
-            if (user) {
-                await (0, sendMail_1.default)({
-                    email: user.email,
-                    subject: req.t("email.order_subject"),
-                    template: "order-confirmation.ejs",
-                    data: mailData,
-                });
-            }
+        // Send mail in background
+        if (user) {
+            (0, sendMail_1.default)({
+                email: user.email,
+                subject: req.t("email.order_subject"),
+                template: "order-confirmation.ejs",
+                data: mailData,
+            }).catch((err) => {
+                console.error("Order confirmation email failed:", err.message);
+            });
         }
-        catch (error) {
-            return next(new ErrorHandler_1.default(error.message, 500));
-        }
-        user?.courses.push(course?._id);
+        user?.courses.push({ courseId: course._id.toString() });
         await redis_1.redis.set(req.user?._id, JSON.stringify(user));
         await user?.save();
         await notification_Model_1.default.create({
@@ -114,7 +111,7 @@ exports.newPayment = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
                 enabled: true,
             },
             shipping: {
-                name: "Harmik Lathiya",
+                name: "IlmMaskan",
                 address: {
                     line1: "510 Townsend St",
                     postal_code: "98140",

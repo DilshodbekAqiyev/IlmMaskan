@@ -140,7 +140,7 @@ export const newPayment = CatchAsyncError(
           enabled: true,
         },
         shipping: {
-          name: "Harmik Lathiya",
+          name: "IlmMaskan",
           address: {
             line1: "510 Townsend St",
             postal_code: "98140",

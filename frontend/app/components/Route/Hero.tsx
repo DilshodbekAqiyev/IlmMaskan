@@ -74,16 +74,22 @@ const Hero: FC<Props> = (props) => {
           <Image
             src={require("../../../public/assests/client-1.jpg")}
             alt=""
+            width={50}
+            height={50}
             className="rounded-full"
           />
           <Image
             src={require("../../../public/assests/client-2.jpg")}
             alt=""
+            width={50}
+            height={50}
             className="rounded-full ml-[-20px]"
           />
           <Image
             src={require("../../../public/assests/client-3.jpg")}
             alt=""
+            width={50}
+            height={50}
             className="rounded-full ml-[-20px]"
           />
           <p className="font-Josefin dark:text-[#edfff4] text-[#000000b3] 1000px:pl-3 text-[18px] font-[600]">

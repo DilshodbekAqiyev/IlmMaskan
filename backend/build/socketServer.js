@@ -5,7 +5,7 @@ const socket_io_1 = require("socket.io");
 const initSocketServer = (server) => {
     const io = new socket_io_1.Server(server, {
         cors: {
-            origin: process.env.ORIGIN ? process.env.ORIGIN.split(',') : ["http://localhost:3000", "https://ilm-maskan.vercel.app"],
+            origin: process.env.ORIGIN ? process.env.ORIGIN.split(',').map(i => i.trim()) : ["http://localhost:3000", "https://ilm-maskan.vercel.app"],
             methods: ["GET", "POST"]
         }
     });

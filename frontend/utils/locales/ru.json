@@ -11,6 +11,9 @@
     "copyright": "Авторские права © 2026 IlmMaskan"
   },
   "page": {
+    "title": "IlmMaskan - Ваш путь к знаниям",
+    "description": "IlmMaskan - это платформа для обучения студентов и получения помощи от преподавателей",
+    "keywords": "Программирование,MERN,Redux,Машинное обучение",
     "profile_title": "Профиль {{name}} - IlmMaskan",
     "about_title": "О нас - IlmMaskan",
     "policy_title": "Правила - IlmMaskan",

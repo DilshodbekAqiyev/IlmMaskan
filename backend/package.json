@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only server.ts",
+    "seed-course": "ts-node scripts/seedCourse.ts",
     "start": "node build/server.js",
     "build": "tsc && cp -r mails build/ && cp -r locales build/"
   },
