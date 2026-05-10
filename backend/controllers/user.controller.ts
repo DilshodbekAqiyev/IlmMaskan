@@ -160,16 +160,19 @@ export const loginUser = CatchAsyncError(
       const user = await userModel.findOne({ email }).select("+password");
 
       if (!user) {
+        console.log(`Login failed: User with email ${email} not found`);
         return next(new ErrorHandler((req as any).t("error.invalid_email_password"), 400));
       }
 
       const isPasswordMatch = await user.comparePassword(password);
       if (!isPasswordMatch) {
+        console.log(`Login failed: Password mismatch for email ${email}`);
         return next(new ErrorHandler((req as any).t("error.invalid_email_password"), 400));
       }
 
       sendToken(user, 200, res);
     } catch (error: any) {
+      console.error("Login error:", error);
       return next(new ErrorHandler(error.message, 400));
     }
   }
