@@ -59,6 +59,9 @@ const limiter = rateLimit({
   },
 });
 
+// limiter
+app.use(limiter);
+
 // routes
 app.use(
   "/api/v1",
@@ -90,14 +93,4 @@ app.all("*", (req: Request, res: Response, next: NextFunction) => {
 });
 
 // middleware calls
-app.use(limiter);
 app.use(ErrorMiddleware);
-
-// Add error handling middleware for express
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error("Express error:", err);
-  res.status(err.status || 500).json({
-    success: false,
-    message: err.message || "Internal server error",
-  });
-});

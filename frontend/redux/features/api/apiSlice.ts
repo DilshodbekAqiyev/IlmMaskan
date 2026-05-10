@@ -4,7 +4,9 @@ import { userLoggedIn } from "../auth/authSlice";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_SERVER_URI,
+    baseUrl: process.env.NEXT_PUBLIC_SERVER_URI?.endsWith("/")
+      ? process.env.NEXT_PUBLIC_SERVER_URI
+      : `${process.env.NEXT_PUBLIC_SERVER_URI}/`,
     prepareHeaders: (headers) => {
       const language = localStorage.getItem("i18nextLng") || "uz";
       headers.set("Accept-Language", language);

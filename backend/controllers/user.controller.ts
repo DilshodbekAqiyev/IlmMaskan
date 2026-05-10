@@ -38,41 +38,6 @@ export const registrationUser = CatchAsyncError(
         return next(new ErrorHandler((req as any).t("error.invalid_email"), 400));
       }
 
-      // Block temporary/disposable email domains
-      const blockedDomains = [
-        "mailinator.com",
-        "guerrillamail.com", 
-        "10minutemail.com",
-        "temp-mail.org",
-        "tempmail.com",
-        "throwawaymail.com",
-        "maildrop.cc",
-        "yopmail.com",
-        "fakemailgenerator.com",
-        "burnermail.io",
-        "spamgourmet.com",
-        "getnada.com",
-        "sharklasers.com",
-        "spam4.me",
-        "dispostable.com",
-        "tempinbox.com",
-        "mohmal.com",
-        "tempmail.net",
-        "tempmailaddress.com",
-        "mytemp.email"
-      ];
-
-      const emailDomain = email.split('@')[1].toLowerCase();
-      
-      // Check if domain or part of domain matches blocked list
-      const isDomainBlocked = blockedDomains.some(blocked => 
-        emailDomain === blocked || emailDomain.includes(blocked.replace('.com',''))
-      );
-
-      if (isDomainBlocked) {
-        return next(new ErrorHandler((req as any).t("error.temp_email"), 400));
-      }
-
       const isEmailExist = await userModel.findOne({ email });
       if (isEmailExist) {
         return next(new ErrorHandler((req as any).t("error.email_exists"), 400));
@@ -85,14 +50,8 @@ export const registrationUser = CatchAsyncError(
       };
 
       const activationToken = createActivationToken(user);
-
       const activationCode = activationToken.activationCode;
-
       const data = { user: { name: user.name }, activationCode };
-      const html = await ejs.renderFile(
-        path.join(__dirname, "../mails/activation-mail.ejs"),
-        data
-      );
 
       try {
         await sendMail({
@@ -108,9 +67,11 @@ export const registrationUser = CatchAsyncError(
           activationToken: activationToken.token,
         });
       } catch (error: any) {
+        console.error("Registration error (sendMail):", error);
         return next(new ErrorHandler(error.message, 400));
       }
     } catch (error: any) {
+      console.error("Registration error (main):", error);
       return next(new ErrorHandler(error.message, 400));
     }
   }
