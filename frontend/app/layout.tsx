@@ -144,7 +144,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" 
-    className={`${poppins.variable} ${josefin.variable} !bg-white bg-no-repeat dark:bg-gradient-to-b dark:from-gray-900 dark:to-black duration-300`}>
+    className={`${poppins.variable} ${josefin.variable} bg-no-repeat dark:bg-gradient-to-b dark:from-gray-900 dark:to-black duration-300`}>
       <body suppressHydrationWarning={true}>
         <Providers>
           <SessionProvider>
