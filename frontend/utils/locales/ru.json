@@ -222,6 +222,16 @@
     }
   },
   "success": {
-    "order_created": "Вы успешно записаны на курс!"
-  }
+    "order_created": "Вы успешно записаны на курс!",
+    "course_completed": "Поздравляем! Вы успешно завершили курс!"
+  },
+  "completion": {
+    "title": "Поздравляем!",
+    "subtitle": "Вы успешно завершили курс: {{courseName}}.",
+    "description": "Все ваши усилия принесли плоды. Мы верим, что ваши новые знания пригодятся вам в жизни!",
+    "get_certificate": "Скачать сертификат",
+    "back_to_courses": "Назад к курсам"
+  },
+  "Improve Your Online Learning Experience Better Instantly": "Улучшите свой опыт онлайн-обучения мгновенно",
+  "We have 40k+ Online courses & 500K+ Online registered student. Find your desired Courses from them.": "У нас более 40 тысяч онлайн-курсов и 500 тысяч зарегистрированных студентов. Найдите свой идеальный курс среди них."
 }

@@ -222,6 +222,16 @@
     }
   },
   "success": {
-    "order_created": "Enrolled successfully!"
-  }
+    "order_created": "Enrolled successfully!",
+    "course_completed": "Congratulations! You have successfully completed the course!"
+  },
+  "completion": {
+    "title": "Congratulations!",
+    "subtitle": "You have successfully completed the course: {{courseName}}.",
+    "description": "All your hard work has paid off. We believe your new knowledge will be useful in your life!",
+    "get_certificate": "Download Certificate",
+    "back_to_courses": "Back to Courses"
+  },
+  "Improve Your Online Learning Experience Better Instantly": "Improve Your Online Learning Experience Better Instantly",
+  "We have 40k+ Online courses & 500K+ Online registered student. Find your desired Courses from them.": "We have 40k+ Online courses & 500K+ Online registered student. Find your desired Courses from them."
 }
